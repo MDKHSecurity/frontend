@@ -1,4 +1,12 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-    
+<script>    
+    export let data;
+    const videos = data.responseData.data
+</script>
+
+<div>
+    <p>hello world</p>
+    {#each videos as video}
+    <p>{video.video_name}</p>
+    <p>{video.length}</p>
+    {/each}
+</div>
