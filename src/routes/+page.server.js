@@ -15,7 +15,6 @@ export const load = async ({ fetch, cookies }) => {
       .then((res) => res.json())
       .then((data) => {
         userData = data;
-        console.log(userData)
       });
       
     const getRequest = await fetch(`${PUBLIC_BASE_URL}api/video`, {

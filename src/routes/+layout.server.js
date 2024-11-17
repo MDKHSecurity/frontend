@@ -17,12 +17,8 @@ export const load = async ({ fetch, cookies }) => {
       .then((data) => {
         userData = data;
       });
-    console.log(userData)
-    if (userData.role_name !== "teacher") throw redirect(302, "/");
     
-    //lav et api som henter alle classrooms på en specifik skole på id.
-
     return {
-
+        userData,
     };
   };
