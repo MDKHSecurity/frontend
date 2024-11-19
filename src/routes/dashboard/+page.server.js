@@ -23,6 +23,6 @@ export const load = async ({ fetch, cookies }) => {
     //lav et api som henter alle classrooms på en specifik skole på id.
 
     return {
-
+      
     };
   };
