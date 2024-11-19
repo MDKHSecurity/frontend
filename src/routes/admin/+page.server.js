@@ -1,3 +1,4 @@
+import { redirect } from "@sveltejs/kit";
 import { PUBLIC_BASE_URL } from "$env/static/public";
 let userData;
 export const load = async ({ fetch, cookies }) => {
@@ -16,17 +17,12 @@ export const load = async ({ fetch, cookies }) => {
       .then((data) => {
         userData = data;
       });
-      
-    const getRequest = await fetch(`${PUBLIC_BASE_URL}api/videos`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-    });
-    const responseData = await getRequest.json();
+    console.log(userData)
+    if (userData.role_name !== "admin") throw redirect(302, "/");
     
+    
+
     return {
-        responseData,
-        jwt
+      jwt
     };
   };
