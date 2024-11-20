@@ -18,7 +18,7 @@ export const load = async ({ fetch, cookies }) => {
         userData = data;
       });
     console.log(userData)
-    if (userData.role_name !== "admin") throw redirect(302, "/");
+    if (userData.role_name !== "owner") throw redirect(302, "/");
     
     
 

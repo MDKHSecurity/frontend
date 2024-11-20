@@ -1,5 +1,5 @@
 <script>
-  import ModalClassroom from "../modal/ModelClassroom.svelte";
+  import ModalRoom from "../modal/ModalRoom.svelte";
   let showModal = false;
 
   const openModal = () => {
@@ -14,9 +14,9 @@
       <a href="/dashboard/course">Enroll course</a>
       <a href="/dashboard/statistics">Classroom Statistics</a>
       <a href="/dashboard/content">Course content</a>
-<button class="open-modal-btn" on:click={openModal}>Create classroom</button>
+<button class="open-modal-btn" on:click={openModal}>Create room</button>
 
-<ModalClassroom show={showModal} close={closeModal} />
+<ModalRoom show={showModal} close={closeModal} />
 
 <style>
     a {

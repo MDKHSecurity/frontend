@@ -1,6 +1,6 @@
 <script>
   import { env } from "$env/dynamic/public";
-  import TeacherNavigation from "./TeacherNavigation.svelte";
+  import AdminNavigation from "./AdminNavigation.svelte";
   export let userData;
   export let jwt;
 </script>
@@ -10,13 +10,13 @@
     <a href="/">Home</a>
   </div>
   
-  {#if userData.role_name === "teacher"}
+  {#if userData.role_name === "admin"}
     <div>
-      <TeacherNavigation/>
+      <AdminNavigation/>
     </div>
   {/if}
 
-  {#if userData.role_name === "admin"}
+  {#if userData.role_name === "owner"}
     <div>
       <a href="/content">Content</a>
       <a href="/management">Management</a>
