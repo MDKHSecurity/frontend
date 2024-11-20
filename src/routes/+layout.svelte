@@ -1,8 +1,7 @@
 <script>
-    import Header from "../lib/components/navigation/header.svelte";
+    import Header from"../lib/components/navigation/Header.svelte";
     export let data;
-
 </script>
 
-<Header role={data.userData.role_name}/>
+<Header userData={data.userData} jwt = {data.jwt}/>
 <slot/>
