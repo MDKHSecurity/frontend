@@ -2,21 +2,33 @@
   import { PUBLIC_BASE_URL } from "$env/static/public";
   export let jwt;
   export let show = false;
+  export let userData;
   export let close = () => {};
   
     let roomName;
   
+    const handleSubmit = async () => {
+        await fetch(`${PUBLIC_BASE_URL}api/room`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${jwt}`
+            },
+            body: JSON.stringify({roomName: roomName, institutionId: userData.institution_id})
+        });
+        close();
+    };
 </script>
 
 {#if show}
   <div class="backdrop" on:click={close}>
     <div class="modal" on:click|stopPropagation>
-      <h2>Please the name of</h2>
-              <input
-                  type="text"
-                  placeholder="Enter room name"
-                  bind:value={roomName}
-              />
+      <h2>Please the name of room</h2>
+              <input type="text" placeholder="Enter room name" bind:value={roomName}/>
+              <br>
+              <button on:click={handleSubmit}>Submit</button>
     </div>
   </div>
 {/if}
