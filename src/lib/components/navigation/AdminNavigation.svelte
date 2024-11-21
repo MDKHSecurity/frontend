@@ -1,5 +1,7 @@
 <script>
   import ModalRoom from "../modal/ModalRoom.svelte";
+  export let jwt;
+  export let userData;
   let showModal = false;
 
   const openModal = () => {
@@ -16,7 +18,7 @@
       <a href="/dashboard/content">Course content</a>
 <button class="open-modal-btn" on:click={openModal}>Create room</button>
 
-<ModalRoom show={showModal} close={closeModal} />
+<ModalRoom jwt={jwt} userData={userData} show={showModal} close={closeModal} />
 
 <style>
     a {

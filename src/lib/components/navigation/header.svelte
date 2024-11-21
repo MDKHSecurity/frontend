@@ -12,7 +12,7 @@
   
   {#if userData.role_name === "admin"}
     <div>
-      <AdminNavigation/>
+      <AdminNavigation jwt={jwt} userData={userData}/>
     </div>
   {/if}
 
