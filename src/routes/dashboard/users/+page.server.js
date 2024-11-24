@@ -3,7 +3,6 @@ import { PUBLIC_BASE_URL } from "$env/static/public";
 export const load = async ({ parent, cookies, fetch }) => {
   const { userData } = await parent();
   const jwt = cookies.get("jwt");
-
   const roomsRequest = await fetch(
     `${PUBLIC_BASE_URL}api/rooms/${userData.institution_id}`,
     {
@@ -17,8 +16,8 @@ export const load = async ({ parent, cookies, fetch }) => {
     }
   );
 
-  const coursesRequest = await fetch(
-    `${PUBLIC_BASE_URL}api/courses`,
+  const usersRequest = await fetch(
+    `${PUBLIC_BASE_URL}api/users/${userData.institution_id}`,
     {
       method: "GET",
       credentials: "include",
@@ -31,12 +30,12 @@ export const load = async ({ parent, cookies, fetch }) => {
   );
 
   const roomsResponse = await roomsRequest.json();
-  const coursesResponse = await coursesRequest.json();
-
+  const usersResponse = await usersRequest.json();
+  
   return {
     jwt,
     userData,
     roomsResponse,
-    coursesResponse
+    usersResponse
   };
 };
