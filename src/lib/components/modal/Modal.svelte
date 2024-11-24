@@ -31,7 +31,7 @@
             }
   
             videos = await response.json(); 
-            console.log("Fetched videos:", videos);
+
         } catch (error) {
             console.error("Error fetching videos:", error);
         }
@@ -53,7 +53,7 @@
             }
   
             quizzes = await response.json();
-            console.log("Fetched quizzes:", quizzes);
+
         } catch (error) {
             console.error("Error fetching quizzes:", error);
         }
@@ -89,7 +89,7 @@
     };
   
     const handleSubmit = async () => {
-        console.log("Submitting course data", courseData);
+
         await fetch(`${PUBLIC_BASE_URL}api/course`, {
             method: "POST",
             credentials: "include",
@@ -100,7 +100,7 @@
             },
             body: JSON.stringify(courseData)
         });
-        console.log("Submitted data:", courseData);
+
         close();
     };
   

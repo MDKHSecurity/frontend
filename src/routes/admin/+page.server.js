@@ -17,11 +17,10 @@ export const load = async ({ fetch, cookies }) => {
       .then((data) => {
         userData = data;
       });
-    console.log(userData)
+
     if (userData.role_name !== "owner") throw redirect(302, "/");
     
-    
-
+  
     return {
       jwt
     };
