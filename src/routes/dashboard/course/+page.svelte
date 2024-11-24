@@ -2,7 +2,7 @@
     export let data;
     const roomsResponse = data.roomsResponse;
     const coursesResponse = data.coursesResponse;
-    import PostAndDelete from '../users/PostAndDelete.svelte';
+    import PostAndDelete from '../../../lib/components/requests/PostAndDelete.svelte';
     let selectedRoom;
   
     let addCourse = [];

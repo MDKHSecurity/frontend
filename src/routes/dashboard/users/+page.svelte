@@ -3,7 +3,7 @@
   const roomsResponse = data.roomsResponse;
   const usersResponse = data.usersResponse;
   let selectedRoom;
-  import PostAndDelete from "./PostAndDelete.svelte";
+  import PostAndDelete from "../../../lib/components/requests/PostAndDelete.svelte";
 
   let addRoom = [];
   let removeRoom = [];

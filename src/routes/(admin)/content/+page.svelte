@@ -1,7 +1,7 @@
 <script>
-  import Modal from "../../../lib/components/modal/NewModal.svelte";
+  import Modal from "../../../lib/components/modal/Modal.svelte";
   import DeleteRequest from "../DeleteRequest.svelte";
-  import CreateRequest from "../CreateRequest.svelte";
+  import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
   import { videosDataStore, questionsDataStore, quizzesDataStore, coursesDataStore } from "$lib/stores.js";
 
   export let data; 
