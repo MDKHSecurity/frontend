@@ -1,7 +1,7 @@
 <script>
     export let data;
     import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
-    import DeleteRequest from "../DeleteRequest.svelte";
+    import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
 
     const institutions = data?.institutionData;
 
