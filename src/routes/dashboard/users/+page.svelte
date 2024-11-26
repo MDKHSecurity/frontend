@@ -14,8 +14,8 @@
     return user.rooms.some((room) => room.id === roomId);
   }
   
-  const updateAssigned = (newAssigned) => {
-    newAssigned.assigned.forEach(({ userId, roomId }) => {
+  const updateAssigned = (response) => {
+    response.assigned.forEach(({ userId, roomId }) => {
         const userIndex = usersResponse.findIndex(user => user.id === userId);
         const roomExists = usersResponse[userIndex].rooms.some(room => room.id === roomId);
         if (!roomExists) {
@@ -26,6 +26,12 @@
     });
   };
 
+  const updateDeleted = (response) => {
+    response.deleted.forEach(({ userId, roomId }) => {
+        const userIndex = usersResponse.findIndex(user => user.id === userId);
+            usersResponse[userIndex].rooms = usersResponse[userIndex].rooms.filter(room => room.id !== roomId);
+    });
+  };
 
   $: if (selectedRoom) {
     addRoom = [];
@@ -97,6 +103,7 @@
       deleteBody={{removed: removeRoom}}
       jwt={data.jwt}
       {updateAssigned}
+      {updateDeleted}
     />
   {/if}
 </div>

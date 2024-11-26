@@ -20,8 +20,8 @@
               },
               body: JSON.stringify(postBody)
           }).then(async (res) => {
-            const newAssigned = await res.json();
-            updateAssigned(newAssigned)
+            const response = await res.json();
+            updateAssigned(response)
           });
       } catch (error) {
           console.error('Error making POST request:', error);
@@ -40,7 +40,10 @@
                   'Authorization': `Bearer ${jwt}` 
               },
               body: JSON.stringify(deleteBody)
-          });
+          }).then(async (res) => {
+            const response = await res.json();
+            updateDeleted(response)
+          });;
       } catch (error) {
           console.error('Error making DELETE request:', error);
       }
