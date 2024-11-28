@@ -1,10 +1,10 @@
 <script>
 import { PUBLIC_BASE_URL } from "$env/static/public";
-let username, password;
+let email, password;
 
 const handleLogin = async () => {
     const data = {
-      username,
+      email,
       password,
     };
     await fetch(`${PUBLIC_BASE_URL}api/auth/login`, {
@@ -27,8 +27,8 @@ const handleLogin = async () => {
 </script>
 <div class="login">
     <form on:submit|preventDefault={handleLogin}>
-      <label for="username">Username</label>
-      <input bind:value={username} id="username" />
+      <label for="email">Email</label>
+      <input bind:value={email} id="email" />
   
       <label for="password">Password</label>
       <input bind:value={password} id="password" type="password" />
