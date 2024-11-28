@@ -15,7 +15,14 @@ export const load = async ({ parent, fetch, cookies }) => {
         Authorization: `Bearer ${jwt}`
         },
   });  
-
+ 
+  const rolesResponse = await fetch(`${PUBLIC_BASE_URL}api/roles`, {
+    headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${jwt}`
+    },
+});  
 
 //   const usersResponse = await fetch(`${PUBLIC_BASE_URL}api/users`, {
 //     headers: {
@@ -25,11 +32,14 @@ export const load = async ({ parent, fetch, cookies }) => {
 //     },
 //   });
 
-  
+  const rolesData = await rolesResponse.json();
   const institutionData = await institutionResponse.json();
+    
 //   const users = await usersResponse.json();
 
   return {
-    institutionData
+    institutionData,
+    rolesData
+
   };
 };
