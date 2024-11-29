@@ -44,9 +44,6 @@ export const load = async ({ parent }) => {
     const coursesData = await coursesResponse.json();
     const questionsData = await questionsResponse.json();
     
-   
-
-    
     return {
         userData,
         videosData,

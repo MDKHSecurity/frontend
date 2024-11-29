@@ -1,10 +1,9 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
 
 export const load = async ({ parent, cookies, fetch }) => {
-  const { userData } = await parent();
-  const jwt = cookies.get("jwt");
+  const { userData, jwt } = await parent();
 
-  const roomsRequest = await fetch(`${PUBLIC_BASE_URL}api/rooms/${userData.institution_id}`, {
+  const roomsRequest = await fetch(`${PUBLIC_BASE_URL}api/courses/statistics/${userData.institution_id}`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -15,7 +14,6 @@ export const load = async ({ parent, cookies, fetch }) => {
 });
 
 const roomsResponse = await roomsRequest.json();
-
     return {
         jwt,
         roomsResponse
