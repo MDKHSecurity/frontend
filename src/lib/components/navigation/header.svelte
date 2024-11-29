@@ -9,17 +9,26 @@
   <div>
     <a href="/">Home</a>
   </div>
-  
-  {#if userData.role_name === "admin"}
+  {#if userData === null}
+    <!-- User not logged in -->
     <div>
-      <AdminNavigation jwt={jwt} userData={userData}/>
+      <p>GO TOO LOGIN</p>
     </div>
-  {/if}
-
-  {#if userData.role_name === "owner"}
+  {:else if userData.role_name === "admin"}
+    <!-- Admin role -->
+    <div>
+      <AdminNavigation jwt={jwt} userData={userData} />
+    </div>
+  {:else if userData.role_name === "owner"}
+    <!-- Owner role -->
     <div>
       <a href="/content">Content</a>
       <a href="/management">Management</a>
+    </div>
+  {:else}
+    <!-- Default fallback for other roles -->
+    <div>
+      <a href="/dashboard">Dashboard</a>
     </div>
   {/if}
 </div>

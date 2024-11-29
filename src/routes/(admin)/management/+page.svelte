@@ -1,224 +1,257 @@
 <script>
-    export let data;
-    import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
-    import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
+  import Modal from "../../../lib/components/modal/Modal.svelte";
+  import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
+  import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
 
-    const institutions = data?.institutionData;
+  export let data;
+  let showModal = false;
+  let modalContent = null;
+  let modalTitle = "";
+  let requestData = {};
+  let apiParam = "";
 
-    let selectedInstitution = null;
-    let requestData = {
-        
-    };
+  let availableInstitutions = data.institutionData || [];
+  let availableRoles = data.rolesData || [];
 
-    let emailInputs = []; 
+  const openModal = (contentType, title, endpoint, institutionId = null) => {
+    modalContent = contentType;
+    modalTitle = title;
+    apiParam = endpoint;
+    requestData = {}; // Reset request data for new modal
+    if (contentType === "institution") {
+      requestData.institution_name = "";
+      requestData.city = "";
+      requestData.address = "";
+      requestData.licens_amount = ""; // Initialize new fields for institution
+    } else if (contentType === "users") {
+      requestData.users = []; // Users as an array of objects: { email, role_id }
+      requestData.institutionId = institutionId; // Add institution ID to the request data
+    }
+    showModal = true;
+  };
 
-    const onInstitutionSelect = (institution) => {
-        selectedInstitution = institution;
-        requestData.institution_id = institution.id;
-        emailInputs = []; 
-    };
+  const addUser = () => {
+    if (requestData.email && requestData.role_id) {
+      // Add user to the list of users
+      requestData.users = [
+        ...requestData.users,
+        { email: requestData.email.trim(), role_id: requestData.role_id }
+      ];
+      requestData.email = ""; // Clear email input
+      requestData.role_id = ""; // Clear role selection
+    } else {
+      alert("Please provide both an email and a role for the user.");
+    }
+  };
 
-    const addEmailInput = () => {
-        if (emailInputs.length < selectedInstitution.licens_amount) {
-            emailInputs = [...emailInputs, ''];
-        } else {
-            alert(`Maximum of ${selectedInstitution.licens_amount} emails allowed.`);
-        }
-    };
+  const removeUser = (index) => {
+    // Remove user from the list by index
+    requestData.users = requestData.users.filter((_, i) => i !== index);
+  };
 
-    const removeEmailInput = (index) => {
-        emailInputs = emailInputs.filter((_, i) => i !== index);
-    };
+  const addNewItemToUI = (newItem) => {
+    if (apiParam === "institutions") {
+      availableInstitutions = [...availableInstitutions, newItem];
+      showModal = false; // Close modal after adding institution
+    } else if (apiParam === "users") {
+      showModal = false; // Close modal after adding users
+    }
+  };
 
-    const onSubmitUsers = () => {
-        requestData.users = emailInputs.filter(email => email.trim() !== ''); // Filter valid emails
-        if (!requestData.institution_id || requestData.users.length === 0) {
-            alert("Please select an institution and provide valid emails.");
-            return;
-        }
+  const deleteItems = (id, type) => {
+    if (type === "institutions") {
+      availableInstitutions = availableInstitutions.filter(
+        (institution) => institution.id !== id
+      );
+    } else if (type === "users") {
 
-    };
+    }
+  };
+
+  const createUsers = () => {
+    if (requestData.users.length > 0) {
+      // Adjust the structure to send only the `users` array and `institutionId`
+      const dataToSend = {
+        users: requestData.users,  // Only send the list of users
+        institutionId: requestData.institutionId // Include the institutionId
+      };
+
+      // Example API call can be placed here
+      // createUsersAPI(dataToSend).then(response => {
+      
+      // After successful submission
+      addNewItemToUI(requestData.users); // Add users to the availableUsers array
+      requestData.users = []; // Clear users list
+      showModal = false; // Close the modal after adding users
+    }
+  };
+
+  const isCreateButtonDisabled = () => {
+    // Check if there are any users with missing role_id
+    return requestData.users.length === 0 || requestData.users.some(user => !user.role_id);
+  };
 </script>
 
-<div class="page-container">
-    <p class="intro-text">TO DO: CREATE/UPDATE/DELETE INSTITUTION M. ANTAL LICENCER + UDFRA ANTAL LICENCER CREATE/UPDATE/DELETE USERS</p>
-    <h1 class="page-title">This is Management</h1>
+<main>
+  <h1>Admin Dashboard</h1>
+  <!-- Container for sections -->
+  <div class="sections-container">
+    <!-- Institutions Section -->
+    <section class="dashboard-section">
+      <h2>Institutions</h2>
+      <ul>
+        {#each availableInstitutions as institution (institution.id)}
+          <li>
+            {institution.institution_name} - {institution.city} - {institution.address} -{" "}
+            {institution.licens_amount}
+            <DeleteRequest
+              id={institution.id}
+              apiParam="institutions"
+              jwt={data.jwt}
+              deleteItems={deleteItems}
+            />
+            <button
+              on:click={() =>
+                openModal("users", "Add User to Institution", "users", institution.id)
+              }
+            >
+              Add User
+            </button>
+          </li>
+        {/each}
+      </ul>
+      <button on:click={() => openModal("institution", "Add Institution", "institutions")}>
+        Add Institution
+      </button>
+    </section>
+  </div>
 
-    {#if institutions?.length > 0}
-        <ul class="institution-list">
-            {#each institutions as institution (institution.id)}
-                <li class="institution-item">
-                    <h2>{institution.institution_name}</h2>
-                    <p>ID: {institution.id}</p>
-                    <p>Licenses: {institution.licens_amount}</p>
-                    <button on:click={() => onInstitutionSelect(institution)}>Generate Users</button>
-                    <DeleteRequest jwt={data.jwt} apiParam={"institutions"} id={institution.id}/>
-                </li>
+  <!-- Modal -->
+  <Modal bind:show={showModal} title={modalTitle}>
+    <CreateRequest
+      jwt={data.jwt}
+      {requestData}
+      {apiParam}
+      onSubmit={(newItem) => { 
+        addNewItemToUI(newItem); 
+      }}
+    >
+      <!-- Modal Content for Institutions -->
+      {#if modalContent === "institution"}
+        <label>
+          Institution Name: <input bind:value={requestData.institution_name} required />
+        </label>
+        <label>
+          City: <input bind:value={requestData.city} required />
+        </label>
+        <label>
+          Address: <input bind:value={requestData.address} required />
+        </label>
+        <label>
+          License Amount: <input type="number" bind:value={requestData.licens_amount} required />
+        </label>
+      {/if}
+
+      <!-- Modal Content for Users -->
+      {#if modalContent === "users"}
+        <!-- Email Input Section -->
+        <label>
+          Add Email: <input type="email" bind:value={requestData.email} placeholder="Enter email" />
+        </label>
+        <label>
+          Role:
+          <select bind:value={requestData.role_id}>
+            <option value="" disabled selected>Select Role</option>
+            {#each availableRoles as role}
+              <option value={role.id}>{role.role_name}</option>
             {/each}
+          </select>
+        </label>
+        <button type="button" on:click={addUser}>
+          Add User
+        </button>
+
+        <!-- Display List of Added Users -->
+        <ul>
+          {#each requestData.users as user, index}
+            <li>
+              {user.email} - Role: {#each availableRoles as role (role.id)}
+                {#if role.id === user.role_id}{role.role_name}{/if}
+              {/each}
+              <button type="button" on:click={() => removeUser(index)}>Remove</button>
+            </li>
+          {/each}
         </ul>
-    {:else}
-        <p>No institutions available.</p>
-    {/if}
 
-    {#if selectedInstitution}
-        <h2 class="form-title">Generate Users for {selectedInstitution.institution_name}</h2>
-        <CreateRequest jwt={data.jwt} apiParam="auth/register" requestData={requestData}>
-            <div class="input-group">
-                <label for="institution">Institution ID</label>
-                <input id="institution" value={selectedInstitution.id} readonly />
-            </div>
+        <!-- Institution ID -->
+        <label>
+          Institution ID: <input type="text" value={requestData.institutionId} disabled />
+        </label>
+      {/if}
 
-            
-            {#each emailInputs as email, index}
-                <div class="input-group email-group">
-                    <label for="email-{index}">User Email {index + 1}</label>
-                    <div class="email-input-container">
-                        <input
-                            bind:value={emailInputs[index]}
-                            id="email-{index}"
-                            type="email"
-                            placeholder="Enter user email"
-                            required
-                        />
-                        <button type="button" class="remove-btn" on:click={() => removeEmailInput(index)}>Remove</button>
-                    </div>
-                </div>
-            {/each}
-
-            <button type="button" on:click={addEmailInput}>Add Email</button>
-
-        
-            <button type="submit" on:click|preventDefault={onSubmitUsers}>Submit Users</button>
-        </CreateRequest>
-    {/if}
-
-    <h2 class="form-title">Create a New Institution</h2>
-    <CreateRequest jwt={data.jwt} apiParam="institutions" requestData={requestData}>
-        <div class="input-group">
-            <label for="institution_name">Institution Name</label>
-            <input bind:value={requestData.institution_name} id="institution_name" placeholder="Institution Name" required />
-        </div>
-        
-        <div class="input-group">
-            <label for="city">City</label>
-            <input bind:value={requestData.city} id="city" placeholder="City" required />
-        </div>
-
-        <div class="input-group">
-            <label for="address">Address</label>
-            <input bind:value={requestData.address} id="address" placeholder="Address" required />
-        </div>
-
-        <div class="input-group">
-            <label for="licens_amount">License Amount</label>
-            <input bind:value={requestData.licens_amount} id="licens_amount" placeholder="License Amount" type="number" />
-        </div>
     </CreateRequest>
-</div>
+  </Modal>
+</main>
 
 <style>
-   
-    .page-container {
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+  .sections-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 
-    .intro-text {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 20px;
-    }
+  .dashboard-section {
+    flex: 1 1 calc(50% - 20px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-    .page-title {
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 20px;
-    }
+  section h2 {
+    margin-top: 0;
+  }
 
-    .institution-list {
-        list-style: none;
-        padding: 0;
-    }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
 
-    .institution-item {
-        background-color: #f9f9f9;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
+  li {
+    margin: 0.5rem 0;
+  }
 
-    .institution-item h2 {
-        font-size: 1.6rem;
-        color: #333;
-    }
+  button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
 
-    .institution-item p {
-        font-size: 1rem;
-        color: #555;
-    }
+  button:hover {
+    background-color: #0056b3;
+  }
 
-    .form-title {
-        font-size: 1.6rem;
-        color: #333;
-        margin-top: 30px;
-        margin-bottom: 15px;
-    }
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 
-    .input-group {
-        margin-bottom: 20px;
-    }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
 
-    .input-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-        font-size: 1rem;
-    }
-
-    .email-input-container {
-        display: flex;
-        align-items: center;
-    }
-
-    .email-input-container input {
-        flex: 1;
-    }
-
-    .remove-btn {
-        margin-left: 10px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .remove-btn:hover {
-        background-color: #c82333;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1rem;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    button:focus {
-        outline: none;
-    }
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 </style>

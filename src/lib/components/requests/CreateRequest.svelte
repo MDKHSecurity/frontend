@@ -19,8 +19,7 @@
   
       if (response.ok) {
         const newItem = await response.json(); 
-        onSubmit(newItem); // 
-        
+        onSubmit(newItem); 
       } else {
         console.error("Failed to submit the data.");
       }
