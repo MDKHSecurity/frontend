@@ -35,7 +35,6 @@ export const load = async ({ parent, cookies, fetch }) => {
 
   return {
     jwt,
-    userData,
     roomsResponse,
     coursesResponse
   };

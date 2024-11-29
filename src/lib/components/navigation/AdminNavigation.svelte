@@ -16,7 +16,7 @@
       <a href="/dashboard/course">Enroll course</a>
       <a href="/dashboard/users">Manage users</a>
       <a href="/dashboard/rooms">Manage rooms</a>
-      <a href="/dashboard/content">Course content</a>
+      <a href="/dashboard/statistics">Course statistics</a>
 <button class="open-modal-btn" on:click={openModal}>Create room</button>
 
 <ModalRoom jwt={jwt} userData={userData} show={showModal} close={closeModal} />
