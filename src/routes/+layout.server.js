@@ -3,6 +3,7 @@ import { PUBLIC_BASE_URL } from "$env/static/public";
 
 export const load = async ({ fetch, cookies, url}) => {
     const jwt = cookies.get("jwt");
+    const refreshToken = cookies.get("refreshToken");
 
 
     const userResponse = await fetch(`${PUBLIC_BASE_URL}api/users`, {
@@ -12,10 +13,13 @@ export const load = async ({ fetch, cookies, url}) => {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${jwt}`,
+            "x-refresh-token": refreshToken
         },
     });
 
     const userData = await userResponse.json();
+
+
     if (url.pathname.startsWith("/verify")) {
         return {
             jwt: null, // No need for JWT here
@@ -24,6 +28,8 @@ export const load = async ({ fetch, cookies, url}) => {
         
     } else if (userData.message === "Forbidden" && url.pathname !== "/login") {
         throw redirect(302, "/login");
+    } else if (userData.isLoggedIn === true && url.pathname === "/login") {
+        throw redirect(302, "/");
     }
     return {
         jwt,
