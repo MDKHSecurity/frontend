@@ -42,10 +42,8 @@
 
   const next = () => {
     processCurrentQuestion();
-    if (
-      currentQuestionIndex <
-      courseResponse.quizzes[currentQuizIndex].questions.length - 1
-    ) {
+    if (currentQuestionIndex < courseResponse.quizzes[currentQuizIndex].questions.length - 1) 
+    {
       currentQuestionIndex++;
     } else if (currentQuizIndex < courseResponse.quizzes.length - 1) {
       currentQuizIndex++;
@@ -84,7 +82,20 @@
 <div class="course-body">
   <div class="video-box">
     <h2>Videos</h2>
-    <!-- Optional: Add your video content here -->
+    {#each courseResponse.videos as video}
+        <div>
+          <h3>Video: {video.video_name}</h3>
+          <iframe
+            width="560"
+            height="315"
+            src={video.link.replace("watch?v=", "embed/")}
+            title={video.video_name}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      {/each}
   </div>
 
   {#if !showResults}
@@ -122,7 +133,7 @@
           submit={submitQuiz}
           jwt={data.jwt}
           requestData={quizResults}
-          apiParam="courses/statistics"
+          apiParam="statistics"
           disabled={!selectedAnswer}
         />
       {/if}

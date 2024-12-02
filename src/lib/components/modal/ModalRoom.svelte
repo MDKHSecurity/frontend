@@ -22,21 +22,24 @@
       }),
     });
 
-    roomName = ""; // Clear the input
-    close(); // Close the modal
+    roomName = "";
+    close();
   };
 </script>
 
 {#if show}
   <div class="backdrop" on:click={close}>
     <div class="modal" on:click|stopPropagation>
-      <h2>Please the name of room</h2>
-      <input type="text" placeholder="Enter room name" bind:value={roomName} />
-      <br />
-      <button on:click={handleSubmit}>Submit</button>
+      <h2>Please enter the name of the room</h2>
+      <form on:submit|preventDefault={handleSubmit}>
+        <input type="text" placeholder="Enter room name" bind:value={roomName} required />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 {/if}
+
 
 <style>
   .backdrop {

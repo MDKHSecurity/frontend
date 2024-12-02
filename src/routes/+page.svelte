@@ -1,14 +1,22 @@
 <script>
   export let data;
-  
-  const userData = data.userResponse;
 
-  // Aggregate all rooms and their courses into a single structure
+  const userData = data.userResponse;
+  const quizData = data.quizResponse;
+
+
   const allRoomCourses = userData.rooms.map(room => ({
     roomId: room.id,
     roomName: room.name,
     courses: room.courses
   }));
+
+
+  function getRandomQuizURL() {
+    const randomQuiz = quizData[Math.floor(Math.random() * quizData.length)];
+    return `/quiz/${randomQuiz.id}`;
+  }
+
 </script>
 
 <h1>Welcome {userData.username}</h1>
@@ -31,6 +39,11 @@
   {/each}
 </div>
 
+<div class="random-quiz-container">
+  <a class="random-quiz-button" href={getRandomQuizURL()} on:click={() => (randomQuizURL = getRandomQuizURL())}>
+    Take Random Quiz
+  </a>
+</div>
 
 <style>
   h2 {
@@ -58,9 +71,7 @@
     color: #333;
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
 
   .course-box:hover {
@@ -72,5 +83,31 @@
   .course-box:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .random-quiz-container {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .random-quiz-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .random-quiz-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+  }
+
+  .random-quiz-button:active {
+    transform: translateY(0);
   }
 </style>
