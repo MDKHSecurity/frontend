@@ -1,5 +1,6 @@
 <script>
     export let data;
+    import Header from '$lib/components/navigation/Header.svelte';
     const quiz = data.quizResponse;
     let currentQuestionIndex = 0;
     let selectedAnswer = null;
@@ -7,7 +8,7 @@
     let showResults = false;
   
     let quizResults = {
-      userId: data.userData.id,
+      userId: data.userResponse.id,
       quizId: quiz.id,
       totalQuestions: quiz.questions.length,
       correctAnswers: 0,
@@ -52,6 +53,7 @@
   
     const isLastQuestion = () => currentQuestionIndex === quiz.questions.length - 1;
   </script>
+  <Header userData={data.userResponse} jwt = {data.jwt}/>
   
   <div class="quiz-container">
     {#if !showResults}

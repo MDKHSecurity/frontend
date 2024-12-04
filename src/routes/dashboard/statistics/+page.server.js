@@ -1,25 +1,18 @@
-import { PUBLIC_BASE_URL } from "$env/static/public";
+import { redirect } from "@sveltejs/kit";
 
-export const load = async ({ parent, cookies, fetch }) => {
-  const { userData, jwt } = await parent();
-
-  const roomsRequest = await fetch(
-    `${PUBLIC_BASE_URL}api/statistics/${userData.institution_id}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-    }
-  );
-
-  const roomsResponse = await roomsRequest.json();
-
-  return {
-    jwt,
-    roomsResponse,
-  };
+export const load = async ({ cookies, url }) => {
+  const jwt = cookies.get("jwt");
+  const refreshToken = cookies.get("refreshToken");
+  
+  if (url.pathname.startsWith("/verify")) {
+    return {
+      jwt: null,
+      userData: null,
+    };
+  } else if (jwt === undefined && url.pathname !== "/login" || refreshToken === undefined && url.pathname !== "/login") {
+    throw redirect(302, "/login");
+  } else if (jwt && refreshToken && url.pathname === "/login") {
+    throw redirect(302, "/");
+  }
+  return { jwt, refreshToken };
 };

@@ -1,13 +1,18 @@
 import { redirect } from "@sveltejs/kit";
 
-export const load = async ({ parent }) => {
-    const { userData } = await parent();
-    
-    if (userData.role_name !== "admin") {
-        throw redirect(302, "/login");
-    }
-
+export const load = async ({ cookies, url }) => {
+  const jwt = cookies.get("jwt");
+  const refreshToken = cookies.get("refreshToken");
+  
+  if (url.pathname.startsWith("/verify")) {
     return {
-        userData
+      jwt: null,
+      userData: null,
     };
+  } else if (jwt === undefined && url.pathname !== "/login" || refreshToken === undefined && url.pathname !== "/login") {
+    throw redirect(302, "/login");
+  } else if (jwt && refreshToken && url.pathname === "/login") {
+    throw redirect(302, "/");
+  }
+  return { jwt, refreshToken };
 };

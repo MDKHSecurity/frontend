@@ -1,5 +1,6 @@
 <script>
     import DeleteRequest from "$lib/components/requests/DeleteRequest.svelte";
+    import Header from "$lib/components/navigation/Header.svelte";
     export let data;
     let roomsResponse = data.roomsResponse || [];
 
@@ -7,6 +8,7 @@
         roomsResponse = roomsResponse.filter((room) => room.id !== id);
     };
 </script>
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 
 <div class="room-list">
     <h1>Rooms</h1>

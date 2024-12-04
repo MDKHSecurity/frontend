@@ -2,9 +2,8 @@
   import Modal from "../../../lib/components/modal/Modal.svelte";
   import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
   import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
-  import { videosDataStore, questionsDataStore, quizzesDataStore, coursesDataStore } from "$lib/stores.js";
-
-  export let data; 
+  import Header from "../../../lib/components/navigation/Header.svelte"
+  export let data;
 
   
   let showModal = false;
@@ -16,10 +15,10 @@
   let apiParam = ""; 
 
   
-  let availableVideos = data.videosData || [];
-  let availableQuestions = data.questionsData || [];
-  let availableQuizzes = data.quizzesData || [];
-  let availableCourses = data.coursesData || [];
+  let availableVideos = data.videosResponse || [];
+  let availableQuestions = data.questionsResponse || [];
+  let availableQuizzes = data.quizzesResponse || [];
+  let availableCourses = data.coursesResponse || [];
 
   
   const openModal = (contentType, title, endpoint) => {
@@ -90,6 +89,7 @@
     }
   };
 </script>
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 
 <main>
   <h1>Admin Dashboard</h1>

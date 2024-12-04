@@ -1,5 +1,6 @@
 <script>
   import PostRequest from "$lib/components/requests/PostRequest.svelte";
+  import Header from "$lib/components/navigation/Header.svelte";
   export let data;
   const courseResponse = data.coursesResponse;
   let currentQuizIndex = 0;
@@ -9,7 +10,7 @@
   let showResults = false;
 
   let quizResults = {
-    userId: data.userData.id,
+    userId: data.userResponse.id,
     roomId: data.roomId,
     courseId: data.courseId,
     totalQuestions: 0,
@@ -78,7 +79,7 @@
     }
   };
 </script>
-
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 <div class="course-body">
   <div class="video-box">
     <h2>Videos</h2>

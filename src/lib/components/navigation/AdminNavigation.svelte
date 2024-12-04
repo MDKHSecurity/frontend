@@ -12,7 +12,7 @@
     showModal = false;
   };
 </script>
-<a href="/dashboard">Home</a>
+      <a href="/dashboard">Home</a>
       <a href="/dashboard/course">Enroll course</a>
       <a href="/dashboard/users">Manage users</a>
       <a href="/dashboard/rooms">Manage rooms</a>
