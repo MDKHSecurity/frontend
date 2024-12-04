@@ -1,11 +1,10 @@
 <script>
   export let data;
-
-  const userData = data.userResponse;
+  import Header from "../lib/components/navigation/Header.svelte"
+  const userResponse = data.userResponse;
   const quizData = data.quizResponse;
 
-
-  const allRoomCourses = userData.rooms.map(room => ({
+  const allRoomCourses = userResponse.rooms.map(room => ({
     roomId: room.id,
     roomName: room.name,
     courses: room.courses
@@ -18,8 +17,9 @@
   }
 
 </script>
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 
-<h1>Welcome {userData.username}</h1>
+<h1>Welcome {userResponse.username}</h1>
 
 <div>
   <h2>All Rooms and Their Courses:</h2>

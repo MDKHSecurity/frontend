@@ -1,9 +1,11 @@
 <script>
+  import Header from "$lib/components/navigation/Header.svelte";
+  import PostAndDelete from "../../../lib/components/requests/PostAndDelete.svelte";
+
   export let data;
   const roomsResponse = data.roomsResponse;
   const usersResponse = data.usersResponse;
   let selectedRoom;
-  import PostAndDelete from "../../../lib/components/requests/PostAndDelete.svelte";
 
   let addRoom = [];
   let removeRoom = [];
@@ -62,6 +64,7 @@
     }
   }
 </script>
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 
 <div>
   <label for="rooms-dropdown">Select a Room:</label>

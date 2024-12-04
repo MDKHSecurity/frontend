@@ -2,6 +2,8 @@
   import Modal from "../../../lib/components/modal/Modal.svelte";
   import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
   import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
+  import Header from "../../../lib/components/navigation/Header.svelte"
+  
 
   export let data;
   let showModal = false;
@@ -10,8 +12,8 @@
   let requestData = {};
   let apiParam = "";
 
-  let availableInstitutions = data.institutionData || [];
-  let availableRoles = data.rolesData || [];
+  let availableInstitutions = data.institutionResponse || [];
+  let availableRoles = data.rolesResponse || [];
 
   const openModal = (contentType, title, endpoint, institutionId = null) => {
     modalContent = contentType;
@@ -91,6 +93,7 @@
     return requestData.users.length === 0 || requestData.users.some(user => !user.role_id);
   };
 </script>
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 
 <main>
   <h1>Admin Dashboard</h1>

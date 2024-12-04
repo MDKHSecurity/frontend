@@ -1,4 +1,5 @@
 <script>
+  import Header from "$lib/components/navigation/Header.svelte";
   export let data;
   const roomsResponse = data.roomsResponse;
   const coursesResponse = data.coursesResponse;
@@ -79,7 +80,7 @@
     }
   }
 </script>
-
+<Header userData={data.userResponse} jwt = {data.jwt}/>
 <div>
   <label for="rooms-dropdown">Select a Room:</label>
   <select

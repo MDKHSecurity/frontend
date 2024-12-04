@@ -1,6 +1,6 @@
 <script>
     import Chart from 'chart.js/auto';
-  
+    import Header from '$lib/components/navigation/Header.svelte';
     export let data;
   
     const roomsResponse = data.roomsResponse.rooms;
@@ -54,6 +54,7 @@
       });
     }
   </script>
+    <Header userData={data.userResponse} jwt = {data.jwt}/>
   
   <div>
     <label for="rooms-dropdown">Select a Room:</label>
