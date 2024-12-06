@@ -21,14 +21,6 @@ export default async function refreshTokens(jwt, refreshToken) {
       console.log("Token refreshed successfully", data);
       // Optionally: Display success message with toaster here
       return data;
-    } else if (response.status === 401) {
-      console.error("Unauthorized. Redirecting to login.");
-      window.location.href = "/login";
-    } else if (response.status === 500) {
-      console.error("Server error. Redirecting to home.");
-      window.location.href = "/";
-    } else {
-      console.error("Unexpected response:", response.status);
     }
 
     return null; // Return null for any non-200 responses

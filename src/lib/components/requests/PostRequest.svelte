@@ -1,6 +1,6 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
-
+  import { handleResponse } from "../utils/handleResponse.js";
   export let jwt;
   export let requestData = {};  
   export let apiParam;
@@ -9,7 +9,7 @@
 
   const requestDataResponse = async () => {
       try {
-          const response = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
+          const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -19,6 +19,8 @@
               },
               body: JSON.stringify(requestData),
           });
+
+          await handleResponse(request);
       } catch (error) {
           console.error("Error during fetch:", error);
       }
