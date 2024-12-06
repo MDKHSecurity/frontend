@@ -24,6 +24,7 @@
 
             if (response.ok) {
                 const data = await response.json();
+                console.log(data, "password update ")
 
                 // 2. Once password update is successful, delete the token
                 if (id) {
@@ -34,7 +35,7 @@
                             Accept: "application/json",
                         }
                     });
-
+                    console.log(deleteResponse, "<-- DeleteResoose")
                     if (deleteResponse.ok) {
                         const deleteData = await deleteResponse.json();
 

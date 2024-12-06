@@ -8,7 +8,7 @@
   let roomName = "";
 
   const handleSubmit = async () => {
-    await fetch(`${PUBLIC_BASE_URL}api/room`, {
+    await fetch(`${PUBLIC_BASE_URL}api/rooms`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -19,7 +19,22 @@
       body: JSON.stringify({
         roomName: roomName,
         institutionId: userData.institution_id,
-      }),
+      }).then(async (res) => {
+
+      const responseBody = await res.json();
+      if (res.status === 200) {
+        //Toaster success update
+      }
+      if (res.status === 400) {
+        //Toaster try again
+      }
+      if (res.status === 409) {
+        //Toaster rum eksisterer allerede
+      }
+      if (res.status === 500) {
+        location.href("/")
+      }
+    })
     });
 
     roomName = "";
