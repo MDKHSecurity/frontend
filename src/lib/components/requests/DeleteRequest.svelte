@@ -1,5 +1,6 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
+  import { handleResponse } from "../utils/handleResponse.js";
 
   export let id;
   export let apiParam;
@@ -7,16 +8,21 @@
   export let deleteItems;
 
   const deleteFunction = async () => {
-      const response = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}/${id}`, {
+    try{
+      const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}/${id}`, {
         method: "DELETE",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${jwt}`,
         },
-      }).then(async (res) => {
-        deleteItems(id, apiParam);
-    });
+      })
+      await handleResponse(request);
+      deleteItems(id, apiParam);
+    }catch(error){
+      console.log(error);
+    }
+      
   };
 </script>
 

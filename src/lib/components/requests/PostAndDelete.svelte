@@ -1,5 +1,6 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
+  import { handleResponse } from "../utils/handleResponse.js";
   export let endpoint;
   export let postBody;
   export let deleteBody;
@@ -8,10 +9,10 @@
   export let updateDeleted;
 
   const makePostRequest = async () => {
+      try {
       if (postBody.assigned.length === 0) {
           return;
       }
-      try {
           const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
               method: 'POST',
               headers: { 
@@ -19,20 +20,19 @@
                   'Authorization': `Bearer ${jwt}` 
               },
               body: JSON.stringify(postBody)
-          }).then(async (res) => {
-            const response = await res.json();
-            updateAssigned(response)
-          });
+          })
+          const handle = await handleResponse(request);
+          updateAssigned(handle)
       } catch (error) {
-          console.error('Error making POST request:', error);
+          console.error(error);
       }
   };
 
   const makeDeleteRequest = async () => {
+      try {
       if (deleteBody.removed.length === 0) {
           return;
       }
-      try {
           const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
               method: 'DELETE',
               headers: { 
@@ -40,12 +40,13 @@
                   'Authorization': `Bearer ${jwt}` 
               },
               body: JSON.stringify(deleteBody)
-          }).then(async (res) => {
-            const response = await res.json();
-            updateDeleted(response)
-          });;
+          })
+
+          const handle = await handleResponse(request);
+          updateDeleted(handle)
+
       } catch (error) {
-          console.error('Error making DELETE request:', error);
+          console.error(error);
       }
   };
 

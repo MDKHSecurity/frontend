@@ -1,5 +1,6 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
+  import { handleResponse } from "../utils/handleResponse.js";
   export let jwt;
   export let show = false;
   export let userData;
@@ -8,37 +9,27 @@
   let roomName = "";
 
   const handleSubmit = async () => {
-    await fetch(`${PUBLIC_BASE_URL}api/rooms`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-      body: JSON.stringify({
-        roomName: roomName,
-        institutionId: userData.institution_id,
-      }).then(async (res) => {
+    try {
+      const request = await fetch(`${PUBLIC_BASE_URL}api/rooms`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          roomName: roomName,
+          institutionId: userData.institution_id,
+        })
+      });
 
-      const responseBody = await res.json();
-      if (res.status === 200) {
-        //Toaster success update
-      }
-      if (res.status === 400) {
-        //Toaster try again
-      }
-      if (res.status === 409) {
-        //Toaster rum eksisterer allerede
-      }
-      if (res.status === 500) {
-        location.href("/")
-      }
-    })
-    });
-
-    roomName = "";
-    close();
+      await handleResponse(request);
+      roomName = "";
+      close();
+    } catch (error) {
+      console.error("Error during room creation:", error);
+    }
   };
 </script>
 
@@ -54,7 +45,6 @@
     </div>
   </div>
 {/if}
-
 
 <style>
   .backdrop {

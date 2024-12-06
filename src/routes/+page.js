@@ -3,17 +3,20 @@ import refreshTokens from "../lib/components/refresh/refresh.js";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken } = data;
 
-  const refreshedData = await refreshTokens(jwt, refreshToken);
-  
-  const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
-
+  try{
+    const refreshedData = await refreshTokens(jwt, refreshToken);
+    //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
+  }catch(error){
+    console.log(error)
+  }
+  let userRe
   const userRequest = await fetch(`${PUBLIC_BASE_URL}api/users/rooms`, {
     method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${refreshedJwt}`,
+      Authorization: `Bearer ${jwt}`,
     },
   });
 
@@ -23,7 +26,7 @@ export const load = async ({ data, fetch }) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${refreshedJwt}`,
+      Authorization: `Bearer ${jwt}`,
     },
   });
   

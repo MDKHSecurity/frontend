@@ -1,12 +1,15 @@
 <script>
     import { PUBLIC_BASE_URL } from "$env/static/public";
+    import { handleResponse } from "../utils/handleResponse.js";
+    
     export let jwt;
     export let requestData = {};  
     export let apiParam;
     export let onSubmit; 
     
     const requestDataResponse = async () => {
-      const response = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
+      try{
+        const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -16,12 +19,11 @@
         },
         body: JSON.stringify(requestData),
       });
-  
-      if (response.ok) {
-        const newItem = await response.json(); 
-        onSubmit(newItem); 
-      } else {
-        console.error("Failed to submit the data.");
+      
+      const handle = await handleResponse(request)
+      onSubmit(handle);
+      }catch(error){
+        console.log(error)
       }
     };
   </script>
