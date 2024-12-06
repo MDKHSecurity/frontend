@@ -18,7 +18,7 @@ export const load = async ({ data, fetch }) => {
   });
 
   const quizRequest = await fetch(`${PUBLIC_BASE_URL}api/quizzes`, {
-    method: "GET",
+    method: "GET",  
     credentials: "include",
     headers: {
       "Content-Type": "application/json",

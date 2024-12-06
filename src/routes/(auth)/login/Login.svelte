@@ -1,5 +1,6 @@
 <script>
 import { PUBLIC_BASE_URL } from "$env/static/public";
+
 let email, password;
 
 const handleLogin = async () => {
@@ -16,7 +17,11 @@ const handleLogin = async () => {
       },
       body: JSON.stringify(data),
     }).then(async (res) => {
+      const responseBody = await res.json();
+      console.log(responseBody.message, "<<-- checking res")
+      
       if (res.status === 200) {
+        console.log(res.status,"hello")
         location.href = "/";
       }
       if (res.status === 400) {
@@ -29,10 +34,8 @@ const handleLogin = async () => {
     <form on:submit|preventDefault={handleLogin}>
       <label for="email">Email</label>
       <input bind:value={email} id="email" />
-  
       <label for="password">Password</label>
       <input bind:value={password} id="password" type="password" />
-  
       <button
         id="submit"
         type="submit">Login</button

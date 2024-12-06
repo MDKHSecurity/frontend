@@ -1,6 +1,8 @@
 import { redirect } from "@sveltejs/kit";
 
+
 export const load = async ({ cookies, url }) => {
+
   const jwt = cookies.get("jwt");
   const refreshToken = cookies.get("refreshToken");
   console.log(jwt)

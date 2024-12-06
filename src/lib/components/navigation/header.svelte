@@ -1,6 +1,7 @@
 <script>
   import { env } from "$env/dynamic/public";
   import AdminNavigation from "./AdminNavigation.svelte";
+  import Logout from "./Logout.svelte";
   export let userData;
   export let jwt;
 </script>
@@ -31,6 +32,7 @@
       <a href="/dashboard">Dashboard</a>
     </div>
   {/if}
+  <Logout/>
 </div>
 
 <style lang="scss">
