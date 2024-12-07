@@ -4,7 +4,7 @@ import { redirect } from "@sveltejs/kit";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken } = data;
 
-  const refreshedData = await refreshTokens(jwt, refreshToken);
+  const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
   
   //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
   
