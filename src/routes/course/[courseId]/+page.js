@@ -3,7 +3,7 @@ import refreshTokens from "../../../lib/components/refresh/refresh.js";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken, courseId, roomId} = data;
 
-  const refreshedData = await refreshTokens(jwt, refreshToken);
+  const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
   
   //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
   
@@ -33,6 +33,7 @@ export const load = async ({ data, fetch }) => {
   return {
     userResponse,
     coursesResponse,
-    roomId
+    roomId,
+    jwt
   };
 };

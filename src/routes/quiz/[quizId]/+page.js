@@ -1,10 +1,9 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
 import refreshTokens from "../../../lib/components/refresh/refresh.js";
-import errorHandling from "$lib/components/errorHandling/errorHandling.js";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken, quizId } = data;
 
-  const refreshedData = await refreshTokens(jwt, refreshToken);
+  const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
   
   //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
   
@@ -30,10 +29,11 @@ export const load = async ({ data, fetch }) => {
   });
 
 
-  const userResponse = await errorHandling(userRequest);
-  const quizResponse = await errorHandling(quizRequest);
+  const userResponse = await userRequest.json();
+  const quizResponse = await quizRequest.json();
   return {
     userResponse,
-    quizResponse
+    quizResponse,
+    jwt
   };
 };

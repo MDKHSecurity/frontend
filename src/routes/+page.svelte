@@ -1,17 +1,20 @@
 <script>
   export let data;
   import Header from "../lib/components/navigation/Header.svelte"
-  const userResponse = data.userResponse;
-  const quizData = data.quizResponse;
+  const userResponse = data?.userResponse;
+  const quizData = data?.quizResponse;
 
-  const allRoomCourses = userResponse.rooms.map(room => ({
+  const allRoomCourses = userResponse?.rooms?.map(room => ({
     roomId: room.id,
     roomName: room.name,
     courses: room.courses
-  }));
+  })) || [];
 
 
   function getRandomQuizURL() {
+    if (!quizData.length) {
+      return;
+    }
     const randomQuiz = quizData[Math.floor(Math.random() * quizData.length)];
     return `/quiz/${randomQuiz.id}`;
   }

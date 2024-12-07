@@ -8,11 +8,11 @@
   let selectedAnswer;
   let userAnswers = {};
   let showResults = false;
-
+  console.log(data)
   let quizResults = {
     userId: data.userResponse.id,
     roomId: data.roomId,
-    courseId: data.courseId,
+    courseId: courseResponse.id,
     totalQuestions: 0,
     correctAnswers: 0,
   };
