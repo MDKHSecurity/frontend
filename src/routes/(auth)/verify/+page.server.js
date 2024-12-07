@@ -10,6 +10,12 @@ export const load = async ({ url, cookies }) => {
         throw redirect(302, '/');
     }
 
+    // if (url.pathname.startsWith("/verify")) {
+    //     return {
+    //       jwt: null,
+    //       userData: null,
+    //     };
+    //   }
 
     // Fetch token data from the API
     const tokenResponse = await fetch(`${PUBLIC_BASE_URL}api/tokens/${token}`, {
@@ -26,7 +32,6 @@ export const load = async ({ url, cookies }) => {
       return {
         tokensData,
         token
-
     };
     }
 };

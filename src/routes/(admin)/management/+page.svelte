@@ -93,7 +93,7 @@
     return requestData.users.length === 0 || requestData.users.some(user => !user.role_id);
   };
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
 <main>
   <h1>Admin Dashboard</h1>
@@ -110,7 +110,7 @@
             <DeleteRequest
               id={institution.id}
               apiParam="institutions"
-              jwt={data.jwt}
+              jwt={data.newAccessToken}
               deleteItems={deleteItems}
             />
             <button
@@ -132,7 +132,7 @@
   <!-- Modal -->
   <Modal bind:show={showModal} title={modalTitle}>
     <CreateRequest
-      jwt={data.jwt}
+      jwt={data.newAccessToken}
       {requestData}
       {apiParam}
       onSubmit={(newItem) => { 

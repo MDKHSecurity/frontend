@@ -7,65 +7,71 @@ export const load = async ({ data, fetch }) => {
 
   const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
 
-  //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
+  if (refreshedData !== null) {
+    const newAccessToken = refreshedData.newAccessToken;
 
-  const userRequest = await fetch(`${PUBLIC_BASE_URL}api/users`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`,
-    },
-  });
+    const userRequest = await fetch(`${PUBLIC_BASE_URL}api/users`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
 
-  const userResponse = await userRequest.json();
+    const userResponse = await userRequest.json();
 
-  if (userResponse.role_name !== "owner") {
-    throw redirect(302, "/");
+    if (!userResponse.role_name) {
+      throw redirect(302, "/login");
+    } else if (userResponse.role_name !== "owner") {
+      throw redirect(302, "/");
+    }
+
+    const videosRequest = await fetch(`${PUBLIC_BASE_URL}api/videos`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
+    const quizzesRequest = await fetch(`${PUBLIC_BASE_URL}api/quizzes`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
+    const coursesRequest = await fetch(`${PUBLIC_BASE_URL}api/courses`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
+
+    const questionsRequest = await fetch(`${PUBLIC_BASE_URL}api/questions`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
+
+    const videosResponse = await videosRequest.json();
+    const quizzesResponse = await quizzesRequest.json();
+    const coursesResponse = await coursesRequest.json();
+    const questionsResponse = await questionsRequest.json();
+
+    return {
+      userResponse,
+      videosResponse,
+      quizzesResponse,
+      coursesResponse,
+      questionsResponse,
+      newAccessToken,
+    };
+  } else {
+    throw redirect(302, "/login");
   }
-
-  const videosRequest = await fetch(`${PUBLIC_BASE_URL}api/videos`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`
-    },
-  });
-  const quizzesRequest = await fetch(`${PUBLIC_BASE_URL}api/quizzes`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`
-    },
-  });
-  const coursesRequest = await fetch(`${PUBLIC_BASE_URL}api/courses`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`
-    },
-  });
-
-  const questionsRequest = await fetch(`${PUBLIC_BASE_URL}api/questions`, {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`
-    },
-  });
-
-const videosResponse = await videosRequest.json();
-const quizzesResponse = await quizzesRequest.json();
-const coursesResponse = await coursesRequest.json();
-const questionsResponse = await questionsRequest.json();
-
-  return {
-    userResponse,
-    videosResponse,
-    quizzesResponse,
-    coursesResponse,
-    questionsResponse,
-    jwt
-  };
 };

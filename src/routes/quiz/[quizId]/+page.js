@@ -1,39 +1,45 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
+import { redirect } from "@sveltejs/kit";
 import refreshTokens from "../../../lib/components/refresh/refresh.js";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken, quizId } = data;
 
   const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
-  
-  //const refreshedJwt = refreshedData ? refreshedData.newAccessToken : null;
-  
-  const userRequest = await fetch(`${PUBLIC_BASE_URL}api/users`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${jwt}`,
-    },
-  });
-  
+  if (refreshedData !== null) {
+    const newAccessToken = refreshedData.newAccessToken;
 
-  const quizRequest = await fetch(`${PUBLIC_BASE_URL}api/quizzes/${quizId}`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
+    const userRequest = await fetch(`${PUBLIC_BASE_URL}api/users`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${jwt}`,
-    },
-  });
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
 
+    const userResponse = await userRequest.json();
+    if (!userResponse.role_name) {
+      throw redirect(302, "/login");
+    }
 
-  const userResponse = await userRequest.json();
-  const quizResponse = await quizRequest.json();
-  return {
-    userResponse,
-    quizResponse,
-    jwt
-  };
+    const quizRequest = await fetch(`${PUBLIC_BASE_URL}api/quizzes/${quizId}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${newAccessToken}`,
+      },
+    });
+
+    const quizResponse = await quizRequest.json();
+    return {
+      userResponse,
+      quizResponse,
+      newAccessToken,
+    };
+  } else {
+    throw redirect(302, "/login");
+  }
 };

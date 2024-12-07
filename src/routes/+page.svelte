@@ -20,7 +20,7 @@
   }
 
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
 <h1>Welcome {userResponse.username}</h1>
 

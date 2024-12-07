@@ -3,8 +3,8 @@
     export let data;
     console.log(data)
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
-<h1>Welcome to dashboard</h1>
+<h1>Welcome to dashboard name: {data.userResponse.username}</h1>
 
 <style></style>

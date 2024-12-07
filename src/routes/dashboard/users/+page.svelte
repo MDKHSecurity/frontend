@@ -64,7 +64,7 @@
     }
   }
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
 <div>
   <label for="rooms-dropdown">Select a Room:</label>
@@ -104,7 +104,7 @@
       endpoint={"users/rooms"}
       postBody={{ assigned: addRoom }}
       deleteBody={{removed: removeRoom}}
-      jwt={data.jwt}
+      jwt={data.newAccessToken}
       {updateAssigned}
       {updateDeleted}
     />

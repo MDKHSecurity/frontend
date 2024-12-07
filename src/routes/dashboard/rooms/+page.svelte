@@ -8,7 +8,7 @@
         roomsResponse = roomsResponse.filter((room) => room.id !== id);
     };
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
 <div class="room-list">
     <h1>Rooms</h1>
@@ -22,7 +22,7 @@
             <DeleteRequest 
                 id={room.id} 
                 apiParam="rooms" 
-                jwt={data.jwt} 
+                jwt={data.newAccessToken} 
                 {deleteItems}
             />
         </div>

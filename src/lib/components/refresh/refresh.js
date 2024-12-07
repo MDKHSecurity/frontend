@@ -20,7 +20,7 @@ export default async function refreshTokens(jwt, refreshToken, fetch) {
       const data = await response.json();
       return data;
     }
-
+    
     return null;
   } catch (error) {
     console.error("Error during token refresh:", error);
