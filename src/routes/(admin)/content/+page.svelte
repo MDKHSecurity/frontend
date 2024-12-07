@@ -89,7 +89,7 @@
     }
   };
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
 <main>
   <h1>Admin Dashboard</h1>
@@ -105,7 +105,7 @@
             <DeleteRequest 
               id={video.id} 
               apiParam="videos" 
-              jwt={data.jwt}
+              jwt={data.newAccessToken}
               deleteItems={deleteItems} 
             />
           </li>
@@ -136,7 +136,7 @@
             <DeleteRequest 
               id={quiz.id} 
               apiParam="quizzes" 
-              jwt={data.jwt}
+              jwt={data.newAccessToken}
               deleteItems={deleteItems} 
             />
           </li>
@@ -157,7 +157,7 @@
             <DeleteRequest 
               id={question.id} 
               apiParam="questions" 
-              jwt={data.jwt}
+              jwt={data.newAccessToken}
               deleteItems={deleteItems} 
             />
           </li>
@@ -196,7 +196,7 @@
             <DeleteRequest 
               id={course.id} 
               apiParam="courses" 
-              jwt={data.jwt}
+              jwt={data.newAccessToken}
               deleteItems={deleteItems} 
             />
           </li>
@@ -211,7 +211,7 @@
   <!-- Modal -->
   <Modal bind:show={showModal} title={modalTitle}>
     <CreateRequest 
-      jwt={data.jwt} 
+      jwt={data.newAccessToken} 
       {requestData} 
       {apiParam} 
       onSubmit={(newItem) => { 

@@ -26,11 +26,6 @@
       <a href="/content">Content</a>
       <a href="/management">Management</a>
     </div>
-  {:else}
-    <!-- Default fallback for other roles -->
-    <div>
-      <a href="/dashboard">Dashboard</a>
-    </div>
   {/if}
   <Logout/>
 </div>

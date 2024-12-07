@@ -54,7 +54,7 @@
       });
     }
   </script>
-    <Header userData={data.userResponse} jwt = {data.jwt}/>
+    <Header userData={data.userResponse} jwt = {data.newAccessToken}/>
   
   <div>
     <label for="rooms-dropdown">Select a Room:</label>

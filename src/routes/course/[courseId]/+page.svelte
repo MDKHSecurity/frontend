@@ -8,7 +8,6 @@
   let selectedAnswer;
   let userAnswers = {};
   let showResults = false;
-  console.log(data)
   let quizResults = {
     userId: data.userResponse.id,
     roomId: data.roomId,
@@ -79,7 +78,7 @@
     }
   };
 </script>
-<Header userData={data.userResponse} jwt = {data.jwt}/>
+<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 <div class="course-body">
   <div class="video-box">
     <h2>Videos</h2>
@@ -132,7 +131,7 @@
       {:else}
         <PostRequest
           submit={submitQuiz}
-          jwt={data.jwt}
+          jwt={data.newAccessToken}
           requestData={quizResults}
           apiParam="statistics"
           disabled={!selectedAnswer}

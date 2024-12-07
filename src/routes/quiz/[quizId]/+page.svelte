@@ -53,7 +53,7 @@
   
     const isLastQuestion = () => currentQuestionIndex === quiz.questions.length - 1;
   </script>
-  <Header userData={data.userResponse} jwt = {data.jwt}/>
+  <Header userData={data.userResponse} jwt = {data.newAccessToken}/>
   
   <div class="quiz-container">
     {#if !showResults}
