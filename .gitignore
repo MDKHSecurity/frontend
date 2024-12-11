@@ -10,9 +10,10 @@ node_modules
 # OS
 .DS_Store
 Thumbs.db
-cert.pem
-csr.pem
-key.pem
+front-cert.pem
+front-key.pem
+front.csr
+
 # Env
 .env
 .env.*
