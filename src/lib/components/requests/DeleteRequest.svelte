@@ -1,7 +1,7 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
-
+  import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
   export let id;
   export let apiParam;
   export let jwt;
@@ -20,7 +20,7 @@
       await handleResponse(request);
       deleteItems(id, apiParam);
     }catch(error){
-      console.log(error);
+      logErrorToFile(error, jwt);
     }
       
   };

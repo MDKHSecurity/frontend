@@ -1,13 +1,14 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
+  import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
   export let jwt;
   export let requestData = {};  
   export let apiParam;
   export let submit;   
   export let disabled = false;
 
-  const requestDataResponse = async () => {
+  const request = async () => {
       try {
           const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
               method: "POST",
@@ -22,14 +23,14 @@
 
           await handleResponse(request);
       } catch (error) {
-          console.error("Error during fetch:", error);
+          logErrorToFile(error, jwt)
       }
   };
 
   const handleButtonClick = async () => {
       await submit();
 
-      await requestDataResponse();
+      await request();
   };
 </script>
 

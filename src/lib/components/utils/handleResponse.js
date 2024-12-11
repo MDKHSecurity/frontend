@@ -29,15 +29,18 @@ export async function handleResponse(request, successPath) {
     });
     goto("/login");
   }else if (request.status === 401) {
-    toast.push(result.message, {
-      theme: {
-        "--toastColor": "mintcream",
-        "--toastBackground": "#EC9706",
-        "--toastBarBackground": "#DD571C",
-      },
-      duration: 2500,
-    });
-    goto("/login");
+    if(result.isLogin === true){
+      toast.push(result.message, {
+        theme: {
+          "--toastColor": "mintcream",
+          "--toastBackground": "#EC9706",
+          "--toastBarBackground": "#DD571C",
+        },
+        duration: 2500,
+      });
+    }else{
+      window.location.reload();
+    }
   } else if (request.status === 409) {
     toast.push(result.message, {
       theme: {

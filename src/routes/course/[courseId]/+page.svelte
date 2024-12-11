@@ -103,10 +103,7 @@
       <h2>Quiz: {courseResponse.quizzes[currentQuizIndex].quiz_name}</h2>
 
       <div>
-        <p>
-          Question {currentQuestionIndex + 1}: {courseResponse.quizzes[
-            currentQuizIndex
-          ].questions[currentQuestionIndex].question}
+        <p>Question {currentQuestionIndex + 1}: {courseResponse.quizzes[currentQuizIndex].questions[currentQuestionIndex].question}
         </p>
         {#each courseResponse.quizzes[currentQuizIndex].questions[currentQuestionIndex].shuffledAnswers as answer}
           <button
@@ -114,10 +111,7 @@
             on:click={() =>
               selectAnswer(
                 courseResponse.quizzes[currentQuizIndex].id,
-                courseResponse.quizzes[currentQuizIndex].questions[
-                  currentQuestionIndex
-                ].id,
-                answer
+                courseResponse.quizzes[currentQuizIndex].questions[currentQuestionIndex].id, answer
               )}
           >
             {answer}
@@ -125,9 +119,7 @@
         {/each}
       </div>
       {#if !isLastQuestion()}
-        <button class="button-next" on:click={next} disabled={!selectedAnswer}
-          >Next</button
-        >
+        <button class="button-next" on:click={next} disabled={!selectedAnswer}>Next</button>
       {:else}
         <PostRequest
           submit={submitQuiz}
