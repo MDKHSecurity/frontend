@@ -6,13 +6,13 @@
     
     const userId = data.tokensData.user_id;
     const token = data.token;
-    const id = data.tokensData.token_id; // Assuming the token ID is part of `tokensData`
+    const id = data.tokensData.token_id; 
 
 
     const handleSubmit = async () => {
 
         try {
-            // 1. Update the password
+            
             const response = await fetch(`${PUBLIC_BASE_URL}api/users/${userId}`, {
                 method: 'PATCH',
                 headers: {
@@ -24,7 +24,6 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data, "password update ")
 
                 // 2. Once password update is successful, delete the token
                 if (id) {
@@ -35,7 +34,6 @@
                             Accept: "application/json",
                         }
                     });
-                    console.log(deleteResponse, "<-- DeleteResoose")
                     if (deleteResponse.ok) {
                         const deleteData = await deleteResponse.json();
 

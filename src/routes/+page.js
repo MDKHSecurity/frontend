@@ -22,7 +22,6 @@ export const load = async ({ data, fetch, url }) => {
   const userResponse = await userRequest.json();
   
   if (!userResponse.role_name) {
-    console.log(userResponse, "<------- after first request")
     throw redirect(302, "/login");
   }
 

@@ -101,7 +101,7 @@
       <ul>
         {#each availableVideos as video (video.id)}
           <li>
-            {video.file_name} - {video.length} mins
+            {video.video_name} - {video.length} mins
             <DeleteRequest 
               id={video.id} 
               apiParam="videos" 
@@ -275,7 +275,7 @@
           Choose Videos:
           <select bind:value={requestData.videos} multiple size="5" style="width: 100%;">
             {#each availableVideos as video (video.id)}
-              <option value={video.id}>{video.file_name}</option>
+              <option value={video.id}>{video.video_name}</option>
             {/each}
           </select>
         </label>
