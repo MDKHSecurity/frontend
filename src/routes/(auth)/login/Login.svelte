@@ -32,7 +32,7 @@
 <div class="login">
   <form on:submit|preventDefault={handleLogin}>
     <label for="email">Email</label>
-    <input bind:value={email} id="email" />
+    <input bind:value={email} id="email" type="email"/>
     <label for="password">Password</label>
     <input bind:value={password} id="password" type="password" />
     <button id="submit" type="submit">Login</button>

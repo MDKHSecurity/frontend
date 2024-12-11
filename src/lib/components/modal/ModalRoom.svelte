@@ -1,6 +1,7 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
+  import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
   export let jwt;
   export let show = false;
   export let userData;
@@ -28,7 +29,7 @@
       roomName = "";
       close();
     } catch (error) {
-      console.error("Error during room creation:", error);
+      logErrorToFile(error, jwt)
     }
   };
 </script>

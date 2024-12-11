@@ -1,6 +1,7 @@
 <script>
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
+  import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
   export let endpoint;
   export let postBody;
   export let deleteBody;
@@ -9,50 +10,49 @@
   export let updateDeleted;
 
   const makePostRequest = async () => {
-      try {
+    try {
       if (postBody.assigned.length === 0) {
-          return;
+        return;
       }
-          const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
-              method: 'POST',
-              headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${jwt}` 
-              },
-              body: JSON.stringify(postBody)
-          })
-          const handle = await handleResponse(request);
-          updateAssigned(handle)
-      } catch (error) {
-          console.error(error);
-      }
+      const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify(postBody),
+      });
+      const handle = await handleResponse(request);
+      updateAssigned(handle);
+    } catch (error) {
+      logErrorToFile(error, jwt);
+    }
   };
 
   const makeDeleteRequest = async () => {
-      try {
+    try {
       if (deleteBody.removed.length === 0) {
-          return;
+        return;
       }
-          const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
-              method: 'DELETE',
-              headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${jwt}` 
-              },
-              body: JSON.stringify(deleteBody)
-          })
+      const request = await fetch(`${PUBLIC_BASE_URL}api/${endpoint}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify(deleteBody),
+      });
 
-          const handle = await handleResponse(request);
-          updateDeleted(handle)
-
-      } catch (error) {
-          console.error(error);
-      }
+      const handle = await handleResponse(request);
+      updateDeleted(handle);
+    } catch (error) {
+      logErrorToFile(error, jwt);
+    }
   };
 
   const handleButtonClick = async () => {
-      await makePostRequest();
-      await makeDeleteRequest();
+    await makePostRequest();
+    await makeDeleteRequest();
   };
 </script>
 

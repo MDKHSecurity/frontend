@@ -6,7 +6,7 @@
 
   const allRoomCourses = userResponse?.rooms?.map(room => ({
     roomId: room.id,
-    roomName: room.name,
+    roomName: room.room_name,
     courses: room.courses
   })) || [];
 
@@ -33,7 +33,7 @@
         {#each courses as course}
           <li>
             <a class="course-box" href={`/course/${course.id}?roomId=${roomId}`}>
-              {course.name}
+              {course.course_name}
             </a>
           </li>
         {/each}

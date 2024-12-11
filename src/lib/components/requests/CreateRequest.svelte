@@ -1,7 +1,7 @@
 <script>
     import { PUBLIC_BASE_URL } from "$env/static/public";
     import { handleResponse } from "../utils/handleResponse.js";
-    
+    import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
     export let jwt;
     export let requestData = {};  
     export let apiParam;
@@ -23,7 +23,7 @@
       const handle = await handleResponse(request)
       onSubmit(handle);
       }catch(error){
-        console.log(error)
+        logErrorToFile(error, jwt)
       }
     };
   </script>
