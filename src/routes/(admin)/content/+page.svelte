@@ -2,105 +2,93 @@
   import Modal from "../../../lib/components/modal/Modal.svelte";
   import DeleteRequest from "../../../lib/components/requests/DeleteRequest.svelte";
   import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
-  import Header from "../../../lib/components/navigation/Header.svelte"
+  import Header from "../../../lib/components/navigation/Header.svelte";
+  import Footer from "$lib/components/navigation/Footer.svelte"
   export let data;
 
-  
   let showModal = false;
-  let modalContent = null; 
-  let modalTitle = ""; 
-
-  
+  let modalContent = null;
+  let modalTitle = "";
   let requestData = {};
-  let apiParam = ""; 
+  let apiParam = "";
 
-  
   let availableVideos = data.videosResponse || [];
   let availableQuestions = data.questionsResponse || [];
   let availableQuizzes = data.quizzesResponse || [];
   let availableCourses = data.coursesResponse || [];
 
-  
   const openModal = (contentType, title, endpoint) => {
     modalContent = contentType;
     modalTitle = title;
     apiParam = endpoint;
-
-   
     requestData = {};
     if (contentType === "quiz") {
-      requestData.questions = []; 
+      requestData.questions = [];
     } else if (contentType === "course") {
-      requestData.videos = []; 
-      requestData.quizzes = []; 
+      requestData.videos = [];
+      requestData.quizzes = [];
     }
     showModal = true;
   };
 
-  
   const addNewItemToUI = (newItem) => {
-  if (apiParam === "videos") {
-    availableVideos = [...availableVideos, newItem]; 
-  } else if (apiParam === "questions") {
-    availableQuestions = [...availableQuestions, newItem]; 
-  } else if (apiParam === "quizzes") {
-  
-    if (newItem.questions && Array.isArray(newItem.questions)) {
-      newItem.questions = newItem.questions.map(id =>
-        availableQuestions.find(question => question.id === id)
-      );
+    if (apiParam === "videos") {
+      availableVideos = [...availableVideos, newItem];
+    } else if (apiParam === "questions") {
+      availableQuestions = [...availableQuestions, newItem];
+    } else if (apiParam === "quizzes") {
+      if (newItem.questions && Array.isArray(newItem.questions)) {
+        newItem.questions = newItem.questions.map(id =>
+          availableQuestions.find(question => question.id === id)
+        );
+      }
+      availableQuizzes = [...availableQuizzes, newItem];
+    } else if (apiParam === "courses") {
+      if (newItem.videos && Array.isArray(newItem.videos)) {
+        newItem.videos = newItem.videos.map(id =>
+          availableVideos.find(video => video.id === id)
+        );
+      }
+      if (newItem.quizzes && Array.isArray(newItem.quizzes)) {
+        newItem.quizzes = newItem.quizzes.map(id =>
+          availableQuizzes.find(quiz => quiz.id === id)
+        );
+      }
+      availableCourses = [...availableCourses, newItem];
     }
+  };
 
-    availableQuizzes = [...availableQuizzes, newItem];
-    
-  } else if (apiParam === "courses") {
-
-
-    
-    if (newItem.videos && Array.isArray(newItem.videos)) {
-      newItem.videos = newItem.videos.map(id =>
-        availableVideos.find(video => video.id === id)
-      );
-    }
-
-    
-    if (newItem.quizzes && Array.isArray(newItem.quizzes)) {
-      newItem.quizzes = newItem.quizzes.map(id =>
-        availableQuizzes.find(quiz => quiz.id === id)
-      );
-    }
-    availableCourses = [...availableCourses, newItem];
-  
-  }
-};
-
-  
   const deleteItems = (id, type) => {
     if (type === "videos") {
       availableVideos = availableVideos.filter((video) => video.id !== id);
     } else if (type === "questions") {
       availableQuestions = availableQuestions.filter((question) => question.id !== id);
     } else if (type === "quizzes") {
-      
       availableQuizzes = availableQuizzes.filter((quiz) => quiz.id !== id);
-      
     } else if (type === "courses") {
       availableCourses = availableCourses.filter((course) => course.id !== id);
     }
   };
 </script>
-<Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
-<main>
-  <h1>Admin Dashboard</h1>
-  <!-- Container for sections -->
+<Header userData={data.userResponse} jwt={data.newAccessToken} />
+
+<main class="dashboard">
+  <div class="welcome-container">
+    <div class="text-container">
+      <h1>Welcome</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+    </div>
+    <img src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp" alt="" />
+  </div>
+
   <div class="sections-container">
     <!-- Video Management -->
     <section class="dashboard-section">
       <h2>Videos</h2>
       <ul>
         {#each availableVideos as video (video.id)}
-          <li>
+          <li class="room">
             {video.video_name} - {video.length} mins
             <DeleteRequest 
               id={video.id} 
@@ -111,9 +99,7 @@
           </li>
         {/each}
       </ul>
-      <button on:click={() => openModal("video", "Add Video", "videos")}>
-        Add Video
-      </button>
+      <button class="add-button" on:click={() => openModal("video", "Add Video", "videos")}>Add Video</button>
     </section>
 
     <!-- Quizzes Section -->
@@ -121,14 +107,14 @@
       <h2>Quizzes</h2>
       <ul>
         {#each availableQuizzes as quiz (quiz.id)}
-          <li>
+          <li class="room">
             <strong>{quiz.quiz_name}</strong> - {quiz.number_of_questions} questions
             <ul>
               <li>
                 <strong>Questions:</strong>
                 <ul>
-                  {#each quiz.questions as qqqqq}
-                    <li>{qqqqq.question}</li>
+                  {#each quiz.questions as q}
+                    <li>{q.question}</li>
                   {/each}
                 </ul>
               </li>
@@ -142,9 +128,7 @@
           </li>
         {/each}
       </ul>
-      <button on:click={() => openModal("quiz", "Add Quiz", "quizzes")}>
-        Add Quiz
-      </button>
+      <button class="add-button" on:click={() => openModal("quiz", "Add Quiz", "quizzes")}>Add Quiz</button>
     </section>
 
     <!-- Questions Management -->
@@ -152,7 +136,7 @@
       <h2>Questions</h2>
       <ul>
         {#each availableQuestions as question (question.id)}
-          <li>
+          <li class="room">
             {question.question}
             <DeleteRequest 
               id={question.id} 
@@ -163,9 +147,7 @@
           </li>
         {/each}
       </ul>
-      <button on:click={() => openModal("question", "Add Question", "questions")}>
-        Add Question
-      </button>
+      <button class="add-button" on:click={() => openModal("question", "Add Question", "questions")}>Add Question</button>
     </section>
 
     <!-- Courses Section -->
@@ -173,7 +155,7 @@
       <h2>Courses</h2>
       <ul>
         {#each availableCourses as course (course.id)}
-          <li>
+          <li class="room">
             <strong>{course.course_name}</strong>
             <ul>
               <li>
@@ -202,9 +184,7 @@
           </li>
         {/each}
       </ul>
-      <button on:click={() => openModal("course", "Add Course", "courses")}>
-        Add Course
-      </button>
+      <button class="add-button" on:click={() => openModal("course", "Add Course", "courses")}>Add Course</button>
     </section>
   </div>
 
@@ -221,15 +201,9 @@
     >
       <!-- Modal Content -->
       {#if modalContent === "video"}
-        <label>
           File Name: <input bind:value={requestData.file_name} required />
-        </label>
-        <label>
           File Type: <input bind:value={requestData.video_name} required />
-        </label>
-        <label>
           Length (mins): <input type="number" bind:value={requestData.length} required />
-        </label>
       {/if}
       
       {#if modalContent === "quiz"}
@@ -272,6 +246,9 @@
           Course Name: <input bind:value={requestData.course_name} required />
         </label>
         <label>
+          Description: <textarea bind:value={requestData.description} required></textarea>
+        </label>
+        <label>
           Choose Videos:
           <select bind:value={requestData.videos} multiple size="5" style="width: 100%;">
             {#each availableVideos as video (video.id)}
@@ -291,48 +268,107 @@
     </CreateRequest>
   </Modal>
 </main>
-
+<Footer />
 <style>
-  .sections-container {
+  .dashboard {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .welcome-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 40%; /* Adjust text width as needed */
+  }
+
+  h1 {
+    color: #e4f5f6;
+    margin: 0;
+  }
+
+  p {
+    color: #e4f5f6;
+    font-size: 1rem;
+    margin: 0.5rem 0 0 0; /* Space beneath h1 */
+    line-height: 1.5;
+  }
+
+  img {
+    height: auto;
+    width: 250px;
+    flex-shrink: 0; /* Prevent image from shrinking */
+  }
+
+  .sections-container {
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
   }
 
   .dashboard-section {
-    flex: 1 1 calc(50% - 20px);
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin: 20px;
+    flex: 1 1 calc(45% - 20px);
+    border-radius: 8px;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #1f283b;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  section h2 {
+  .dashboard-section h2 {
     margin-top: 0;
+    color: #e4f5f6;
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px;
+  .room {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #444;
+    margin-bottom: 8px;
   }
 
-  li {
-    margin: 0.5rem 0;
-  }
-
-  button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
+  .add-button {
+    background-color: #23cbc2;
+    color: #e4f5f6;
     border: none;
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
   }
 
-  button:hover {
-    background-color: #0056b3;
+  .add-button:hover {
+    background-color: #1f9e94;
+  }
+
+  input{
+    padding: 6px;
+    margin-bottom: 16px;
+    border: 2px solid #23cbc2;
+    border-radius: 8px;
+    color: #E4F5F6;
+    background-color: #80808080; /* Same background as form */
+  }
+  select{
+    color: #E4F5F6;
+    background-color: #80808080;
+  }
+  textarea{
+    color: #E4F5F6;
+    background-color: #80808080;
   }
 </style>

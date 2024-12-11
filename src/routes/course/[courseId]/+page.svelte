@@ -1,7 +1,12 @@
 <script>
   import PostRequest from "$lib/components/requests/PostRequest.svelte";
   import Header from "$lib/components/navigation/Header.svelte";
+  import Footer from "$lib/components/navigation/Footer.svelte"
+  import greenCheckMark from "../../../lib/images/greenCheckMark.png"
+  import redCheckmark from "../../../lib/images/redCheckMark.png";
+
   export let data;
+  console.log(data)
   const courseResponse = data.coursesResponse;
   let currentQuizIndex = 0;
   let currentQuestionIndex = 0;
@@ -132,6 +137,7 @@
     </div>
   {/if}
 
+  
   {#if showResults}
     <div class="results-box">
       <h2>Quiz Results</h2>
@@ -141,24 +147,33 @@
             <h3>{quiz.quiz_name}</h3>
             <ul>
               {#each quiz.questions as question}
-                <li>
-                  <strong>Question:</strong>
-                  {question.question}
+                <li class="result-item">
+                  <strong>Question:</strong> {question.question}
                   <br />
-                  <strong>Your answer:</strong>
-                  {userAnswers[quiz.id]?.[question.id]}
+                  <strong>Your answer:</strong> {userAnswers[quiz.id]?.[question.id]}
                   <br />
-                  <strong>Correct answer:</strong>
-                  {question.answer}
+                  <strong>Correct answer:</strong> {question.answer}
                   <br />
-                  <strong>Result:</strong>
-                  {isAnswerCorrect(
-                    quiz.id,
-                    question.id,
-                    userAnswers[quiz.id]?.[question.id]
-                  )
-                    ? "Correct"
-                    : "Incorrect"}
+                  <strong>Explanation</strong> {question.explanation}
+                  <img
+                    src={
+                      isAnswerCorrect(
+                        question.answer,
+                        userAnswers[quiz.id]?.[question.id]
+                      )
+                        ? greenCheckMark
+                        : redCheckmark
+                    }
+                    alt={
+                      isAnswerCorrect(
+                        question.answer,
+                        userAnswers[quiz.id]?.[question.id]
+                      )
+                        ? "Correct"
+                        : "Incorrect"
+                    }
+                    class="result-icon"
+                  />
                 </li>
               {/each}
             </ul>
@@ -166,59 +181,129 @@
         {/each}
       </ul>
     </div>
-  {/if}
+  {/if}  
 </div>
 
+<Footer />
 <style>
+  .result-item {
+  align-items: center;
+  justify-content: center; /* Centering horizontally */
+  padding-bottom: 10px; /* Padding for spacing below the content */
+}
+
+.result-icon {
+  width: 50px;
+  height: 50px;
+  display: block; /* Ensures the image is block-level */
+  margin: 0 auto; /* Centers the image horizontally */
+}
   .course-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 16px;
-    background-color: #f9f9f9;
-  }
-  .video-box,
-  .quiz-box,
-  .results-box {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px 0;
-    text-align: center;
-    width: 50%;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+  background-color: #0E172B; /* Background color from palette */
+  color: #E4F5F6; /* Text color from palette */
+}
 
-  .answer {
-    padding: 8px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    user-select: none;
-  }
+.video-box,
+.quiz-box,
+.results-box {
+  background-color: #1F283B; /* Div color from palette */
+  border-radius: 20px; /* Larger rounding for the box */
+  padding: 24px;
+  margin: 16px 0;
+  text-align: center;
+  width: 90%; /* Make it responsive */
+  max-width: 800px; /* Limit maximum width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-  .answer.selected {
-    background-color: #d1e7dd;
-    border-color: #0f5132;
-  }
+.video-item {
+  margin-bottom: 24px;
+}
 
-  .button-next {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.video-item iframe {
+  width: 100%; /* Responsive iframe */
+  height: 315px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  button:disabled {
-    background-color: #d6d6d6;
-    cursor: not-allowed;
-  }
+.answer {
+  background-color: #80808080;
+  display: block; /* Make the buttons block-level to span the full width */
+  width: 100%; /* Fill 100% of the container width */
+  max-width: 600px; /* Optional: Limit the maximum width for better aesthetics */
+  margin: 12px auto; /* Center the buttons horizontally */
+  padding: 12px;
+  border: 2px solid transparent;
+  border-radius: 10px; /* Rounded corners */
+  color: #E4F5F6; /* Text color */
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center; /* Ensure text is centered */
+  transition: background-color 0.3s, transform 0.2s;
+}
 
-  button.selected {
-    background-color: #6c757d;
-  }
+.answer:hover {
+  background-color: #23CBC2; /* Special color for hover */
+  color: #0E172B; /* Contrast text color */
+  transform: scale(1.02);
+}
+
+.answer.selected {
+  background-color: #23CBC2; /* Highlight selected */
+  color: #0E172B; /* Contrast text color */
+  border-color: #E4F5F6; /* Add border for emphasis */
+}
+
+.button-next {
+  padding: 12px 24px;
+  background-color: #23CBC2; /* Special color */
+  color: #0E172B; /* Contrast text color */
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-next:hover {
+  background-color: #1F283B; /* Hover with div color */
+  color: #E4F5F6;
+  transform: translateY(-3px);
+}
+
+button:disabled {
+  background-color: #666; /* Disabled button style */
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.results-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.results-box li {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #1F283B;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.results-box strong {
+  color: #23CBC2; /* Highlight important text */
+}
+
+.random-quiz-container {
+  margin-top: 3rem;
+  text-align: center;
+}
 </style>
