@@ -7,87 +7,68 @@
 </script>
 
 <div class="header">
-  <div>
-    <a href="/">Home</a>
+  <!-- Left-aligned Icon -->
+  <a href="/" class="logo">
+    <!-- Replace with an actual SVG or an image for the icon -->
+    <img src="/path/to/icon.svg" alt="Logo" class="nav-icon" />
+  </a>
+  
+  <!-- Navigation Links -->
+  <div class="nav-links">
+    {#if userData === null}
+      <!-- User not logged in -->
+      <a href="/login" class="nav-link">Login</a>
+    {:else if userData.role_name === "admin"}
+      <a href="/dashboard" class="nav-link">Home</a>
+      <a href="/dashboard/course" class="nav-link">Enroll course</a>
+      <a href="/dashboard/users" class="nav-link">Manage users</a>
+      <a href="/dashboard/rooms" class="nav-link">Manage rooms</a>
+      <a href="/dashboard/statistics" class="nav-link">Course statistics</a>
+    {:else if userData.role_name === "owner"}
+      <!-- Owner role -->
+      <a href="/content" class="nav-link">Content</a>
+      <a href="/management" class="nav-link">Management</a>
+    {/if}
   </div>
-  {#if userData === null}
-    <!-- User not logged in -->
-    <div>
-      <p>GO TOO LOGIN</p>
-    </div>
-  {:else if userData.role_name === "admin"}
-    <!-- Admin role -->
-    <div>
-      <AdminNavigation jwt={jwt} userData={userData} />
-    </div>
-  {:else if userData.role_name === "owner"}
-    <!-- Owner role -->
-    <div>
-      <a href="/content">Content</a>
-      <a href="/management">Management</a>
-    </div>
-  {/if}
-  <Logout/>
+  
+  <Logout />
 </div>
 
-<style lang="scss">
+<style>
   .header {
-    background-color: #0d1b2a;
-    color: #e0e1dd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #0E172B; /* Dark background */
+    color: #E4F5F6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100; /* Ensure it's on top of other elements */
+  }
+
+  .logo {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1.25em;
-    -webkit-box-shadow: 5px 5px 15px 5px #0d1b2a;
-    box-shadow: 5px 5px 15px 5px #0d1b2a;
-    margin-bottom: 2.75em;
+    color: #E4F5F6;
+  }
 
-    a {
-      color: #e0e1dd;
-      margin-right: 0.625em;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1em;
-      text-transform: capitalize;
+  .nav-icon {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+  }
 
-      &:hover {
-        color: #778da9;
-      }
-    }
+  .nav-links {
+    display: flex;
+    gap: 16px; /* Space between links */
+  }
 
-    .home {
-      height: 3.75em;
-    }
+  .nav-link {
+    color: #E4F5F6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
 
-    .messages {
-      position: relative;
-
-      &::after {
-        content: "new message";
-        position: absolute;
-        top: -0.625em;
-        right: -0.625em;
-        background-color: #415a77;
-        color: #e0e1dd;
-        font-size: 0.625em;
-        padding: 0.125em 0.25em;
-        border-radius: 0.25em;
-      }
-    }
-
-    .profile-image {
-      height: 2.5em;
-      width: 2.5em;
-      border-radius: 50%;
-      margin-left: 0.625em;
-    }
-
-    .dashboard-link {
-      margin-left: 0.625em;
-    }
-
-    .logout {
-      margin-right: 0.625em;
-    }
+  .nav-link:hover {
+    color: #23cbc2; /* Change color on hover */
   }
 </style>

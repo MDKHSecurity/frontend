@@ -31,13 +31,13 @@
 </div>
 
 <style>
-  .delete-container {
+  /* .delete-container {
     max-width: 500px;
     margin: 20px auto;
     padding: 20px;
     display: flex;
     justify-content: center;
-  }
+  } */
 
   #delete-btn {
     padding: 12px 20px;
