@@ -32,25 +32,6 @@
     showModal = true;
   };
 
-  const addUser = () => {
-    if (requestData.email && requestData.role_id) {
-      // Add user to the list of users
-      requestData.users = [
-        ...requestData.users,
-        { email: requestData.email.trim(), role_id: requestData.role_id }
-      ];
-      requestData.email = ""; // Clear email input
-      requestData.role_id = ""; // Clear role selection
-    } else {
-      alert("Please provide both an email and a role for the user.");
-    }
-  };
-
-  const removeUser = (index) => {
-    // Remove user from the list by index
-    requestData.users = requestData.users.filter((_, i) => i !== index);
-  };
-
   const addNewItemToUI = (newItem) => {
     if (apiParam === "institutions") {
       availableInstitutions = [...availableInstitutions, newItem];
@@ -70,28 +51,6 @@
     }
   };
 
-  const createUsers = () => {
-    if (requestData.users.length > 0) {
-      // Adjust the structure to send only the `users` array and `institutionId`
-      const dataToSend = {
-        users: requestData.users,  // Only send the list of users
-        institutionId: requestData.institutionId // Include the institutionId
-      };
-
-      // Example API call can be placed here
-      // createUsersAPI(dataToSend).then(response => {
-      
-      // After successful submission
-      addNewItemToUI(requestData.users); // Add users to the availableUsers array
-      requestData.users = []; // Clear users list
-      showModal = false; // Close the modal after adding users
-    }
-  };
-
-  const isCreateButtonDisabled = () => {
-    // Check if there are any users with missing role_id
-    return requestData.users.length === 0 || requestData.users.some(user => !user.role_id);
-  };
 </script>
 <Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
@@ -104,7 +63,7 @@
       <h2>Institutions</h2>
       <ul>
         {#each availableInstitutions as institution (institution.id)}
-          <li>
+          <a href="https://localhost:5173/management/{institution.id}"><li>
             {institution.institution_name} - {institution.city} - {institution.address} -{" "}
             {institution.licens_amount}
             <DeleteRequest
@@ -113,20 +72,21 @@
               jwt={data.newAccessToken}
               deleteItems={deleteItems}
             />
-            <button
+            <!-- <button
               on:click={() =>
                 openModal("users", "Add User to Institution", "users", institution.id)
               }
             >
               Add User
-            </button>
+            </button> -->
           </li>
+        </a>
         {/each}
       </ul>
-      <button on:click={() => openModal("institution", "Add Institution", "institutions")}>
-        Add Institution
-      </button>
     </section>
+    <button on:click={() => openModal("institution", "Add Institution", "institutions")}>
+      Add Institution
+    </button>
   </div>
 
   <!-- Modal -->
@@ -155,42 +115,7 @@
         </label>
       {/if}
 
-      <!-- Modal Content for Users -->
-      {#if modalContent === "users"}
-        <!-- Email Input Section -->
-        <label>
-          Add Email: <input type="email" bind:value={requestData.email} placeholder="Enter email" />
-        </label>
-        <label>
-          Role:
-          <select bind:value={requestData.role_id}>
-            <option value="" disabled selected>Select Role</option>
-            {#each availableRoles as role}
-              <option value={role.id}>{role.role_name}</option>
-            {/each}
-          </select>
-        </label>
-        <button type="button" on:click={addUser}>
-          Add User
-        </button>
 
-        <!-- Display List of Added Users -->
-        <ul>
-          {#each requestData.users as user, index}
-            <li>
-              {user.email} - Role: {#each availableRoles as role (role.id)}
-                {#if role.id === user.role_id}{role.role_name}{/if}
-              {/each}
-              <button type="button" on:click={() => removeUser(index)}>Remove</button>
-            </li>
-          {/each}
-        </ul>
-
-        <!-- Institution ID -->
-        <label>
-          Institution ID: <input type="text" value={requestData.institutionId} disabled />
-        </label>
-      {/if}
 
     </CreateRequest>
   </Modal>
