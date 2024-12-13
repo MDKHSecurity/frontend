@@ -6,7 +6,6 @@
   import redCheckmark from "../../../lib/images/redCheckMark.png";
 
   export let data;
-  console.log(data)
   const courseResponse = data.coursesResponse;
   let currentQuizIndex = 0;
   let currentQuestionIndex = 0;

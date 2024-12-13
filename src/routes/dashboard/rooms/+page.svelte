@@ -2,9 +2,21 @@
   import DeleteRequest from "$lib/components/requests/DeleteRequest.svelte";
   import Header from "$lib/components/navigation/Header.svelte";
   import Footer from "$lib/components/navigation/Footer.svelte"
-
+  import Modal from "$lib/components/modal/Modal.svelte";
+  import PostRequest from "$lib/components/requests/PostRequest.svelte";
   export let data;
+  console.log(data)
+  let showModal = false;
+  let roomName;
   let roomsResponse = data.roomsResponse || [];
+
+  const openModal = () => {
+    showModal = true;
+  }
+
+  const submitRequest = async () => {
+    showModal = false;
+  }
 
   const deleteItems = (id) => {
     roomsResponse = roomsResponse.filter((room) => room.id !== id);
@@ -14,12 +26,9 @@
 <Header userData={data.userResponse} jwt={data.newAccessToken} />
 <div class="header-container">
   <div class="text-container">
-    <h1>welcome</h1>
+    <h1>Manage rooms</h1>
     <h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-      malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore.
+      On this page you are able to create and delete a room. A room is where you can add people and courses.
     </h2>
   </div>
   <img
@@ -27,6 +36,21 @@
     alt=""
   />
 </div>
+
+<div class="modal-btn-container">
+  <button class="modal-btn" on:click={() => openModal()}>Create room</button>
+</div>
+<Modal bind:show={showModal}>
+  <div class="modal-content">
+    <input type="text" placeholder="Enter room name" bind:value={roomName} required />
+    <PostRequest
+      submit={submitRequest}
+      jwt={data.newAccessToken}
+      requestData={{ roomName: roomName, institutionId: data.userResponse.institution_id }}
+      apiParam="rooms"
+    />
+  </div>
+</Modal>
 
 <div class="room-list">
   {#each roomsResponse as room (room.id)}
@@ -48,6 +72,51 @@
 
 <Footer />
 <style>
+  .modal-content {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  gap: 16px; /* Add spacing between items */
+  padding: 16px; /* Optional: Add padding for inner content */
+}
+
+input {
+  width: 80%; /* Adjust width to make it responsive */
+  max-width: 400px; /* Optional: Set a maximum width */
+  padding: 6px;
+  margin-bottom: 16px;
+  border: 2px solid #23cbc2;
+  border-radius: 8px;
+  color: #e4f5f6;
+  background-color: #80808080; /* Same background as form */
+  text-align: center; /* Center placeholder text */
+}
+  .modal-btn-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically (if needed) */
+  margin: 20px 0; /* Add spacing above and below */
+}
+  .modal-btn {
+    padding: 12px 24px;
+    background-color: #23cbc2; /* Special color */
+    color: #0e172b; /* Contrast text color */
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    justify-content: center;
+    transition:
+      background-color 0.3s,
+      transform 0.2s;
+  }
+
+  .modal-btn:hover {
+    background-color: #1f283b;
+    color: #e4f5f6;
+    transform: translateY(-3px);
+  }
   .header-container {
     display: flex;
     align-items: center;
