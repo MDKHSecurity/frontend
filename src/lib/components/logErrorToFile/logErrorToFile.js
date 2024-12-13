@@ -16,11 +16,6 @@ export const logErrorToFile = async (error, jwt, url = window.location.href) => 
                 url,
             }),
         });
-
-        if (!response.ok) {
-            console.error(`Failed to log error: ${response.statusText}`);
-        }
     } catch (err) {
-        console.error('Error while sending log to the server:', err);
     }
 };

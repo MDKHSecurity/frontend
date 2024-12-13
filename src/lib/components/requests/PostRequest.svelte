@@ -20,8 +20,7 @@
         },
         body: JSON.stringify(requestData),
       });
-
-      await handleResponse(request);
+      const handle = await handleResponse(request);
     } catch (error) {
       logErrorToFile(error, jwt);
     }

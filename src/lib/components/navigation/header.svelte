@@ -1,6 +1,5 @@
 <script>
   import { env } from "$env/dynamic/public";
-  import AdminNavigation from "./AdminNavigation.svelte";
   import Logout from "./Logout.svelte";
   export let userData;
   export let jwt;
