@@ -1,7 +1,8 @@
 <script>
-  export let privacyUrl = "#"; // Placeholder URL for privacy policy
+  export let privacyUrll = "#"; // Placeholder URL for privacy policy
   export let termsUrl = "#"; // Placeholder URL for terms of service
   export let contactUrl = "#"; // Placeholder URL for contact page
+  import privacyUrl from "$lib/Privacy Policies MDKHSecurity.pdf"
 </script>
 
 <footer class="footer">
