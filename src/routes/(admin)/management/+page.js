@@ -44,7 +44,6 @@ export const load = async ({ data, fetch }) => {
         Authorization: `Bearer ${newAccessToken}`,
       },
     });
-    console.log(institutionRequest)
 
     const rolesResponse = await rolesRequest.json();
     const institutionResponse = await institutionRequest.json();
