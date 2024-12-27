@@ -1,5 +1,5 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
-
+import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
 export default async function refreshTokens(jwt, refreshToken, fetch) {
   try {
     const response = await fetch(`${PUBLIC_BASE_URL}api/auth/refresh`, {
@@ -23,7 +23,6 @@ export default async function refreshTokens(jwt, refreshToken, fetch) {
     
     return null;
   } catch (error) {
-    console.error("Error during token refresh:", error);
-    return null;
+    logErrorToFile(error, jwt)
   }
 }

@@ -2,6 +2,7 @@
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
   import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
+  import { inputValidation } from "../utils/inputValidation.js";
   export let jwt;
   export let requestData = {};  
   export let apiParam;
@@ -9,6 +10,10 @@
 
   const requestDataResponse = async () => {
     try {
+      const validationFailed = await inputValidation(requestData, jwt);
+      if (validationFailed) {
+        return;
+      }
       const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
         method: "POST",
         credentials: "include",

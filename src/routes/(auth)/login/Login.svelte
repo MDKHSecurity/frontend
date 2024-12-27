@@ -24,8 +24,7 @@
 
       await handleResponse(response, "/");
 
-    } catch (error) {
-      console.error("Error during login:", error);
+    } catch {
     }
   };
 </script>

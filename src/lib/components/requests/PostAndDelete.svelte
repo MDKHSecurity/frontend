@@ -2,6 +2,7 @@
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
   import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
+  import { inputValidation } from "../utils/inputValidation.js";
   export let endpoint;
   export let postBody;
   export let deleteBody;
@@ -11,6 +12,10 @@
 
   const makePostRequest = async () => {
     try {
+      const validationFailed = await inputValidation(postBody, jwt);
+      if (validationFailed) {
+        return;
+      }
       if (postBody.assigned.length === 0) {
         return;
       }
@@ -31,6 +36,11 @@
 
   const makeDeleteRequest = async () => {
     try {
+      const validationFailed = await inputValidation(deleteBody);
+      if (validationFailed) {
+        return;
+      }
+
       if (deleteBody.removed.length === 0) {
         return;
       }

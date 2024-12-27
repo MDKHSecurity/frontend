@@ -5,7 +5,7 @@
   import Modal from "$lib/components/modal/Modal.svelte";
   import PostRequest from "$lib/components/requests/PostRequest.svelte";
   export let data;
-  console.log(data)
+
   let showModal = false;
   let roomName;
   let roomsResponse = data.roomsResponse || [];
@@ -36,7 +36,6 @@
     alt=""
   />
 </div>
-
 <div class="modal-btn-container">
   <button class="modal-btn" on:click={() => openModal()}>Create room</button>
 </div>
