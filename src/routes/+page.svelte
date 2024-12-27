@@ -32,7 +32,7 @@
 </div>
 
 <div class="random-quiz-container">
-  <a class="random-quiz-button" href={getRandomQuizURL()} on:click={() => (randomQuizURL = getRandomQuizURL())}>
+  <a class="random-quiz-button" href={getRandomQuizURL()} on:click={() => (getRandomQuizURL())}>
     Take Random Quiz
   </a>
 </div>

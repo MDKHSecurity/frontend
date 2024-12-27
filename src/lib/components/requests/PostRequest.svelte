@@ -2,6 +2,8 @@
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { handleResponse } from "../utils/handleResponse.js";
   import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
+  import { inputValidation } from "../utils/inputValidation.js";
+
   export let jwt;
   export let requestData = {};
   export let apiParam;
@@ -10,6 +12,11 @@
 
   const request = async () => {
     try {
+      const validationFailed = await inputValidation(requestData, jwt);
+      if (validationFailed) {
+        return;
+      }
+
       const request = await fetch(`${PUBLIC_BASE_URL}api/${apiParam}`, {
         method: "POST",
         credentials: "include",
@@ -18,7 +25,7 @@
           Accept: "application/json",
           Authorization: `Bearer ${jwt}`,
         },
-        body: JSON.stringify(requestData),
+        body: JSON.stringify(requestData), // Use the sanitized data
       });
       const handle = await handleResponse(request);
     } catch (error) {
@@ -40,8 +47,8 @@
 <style>
   button {
     padding: 12px 24px;
-    background-color: #23cbc2; /* Special color */
-    color: #0e172b; /* Contrast text color */
+    background-color: #23cbc2;
+    color: #0e172b;
     border: none;
     border-radius: 15px;
     cursor: pointer;

@@ -11,7 +11,6 @@
       })
       await handleResponse(request, "/login")
       }catch(error){
-        console.log(error)
       }
     };
 

@@ -3,7 +3,7 @@ import refreshTokens from "../../../lib/components/refresh/refresh.js";
 import { redirect } from "@sveltejs/kit";
 export const load = async ({ data, fetch }) => {
   const { jwt, refreshToken } = data;
-
+  try{
     const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
     if (refreshedData !== null) {
       const newAccessToken = refreshedData.newAccessToken;
@@ -24,7 +24,8 @@ export const load = async ({ data, fetch }) => {
       }
     }else{
     }
-
   return {
   };
+  }catch{
+  }
 };

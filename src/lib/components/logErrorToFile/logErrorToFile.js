@@ -1,6 +1,10 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
 
-export const logErrorToFile = async (error, jwt, url = window.location.href) => {
+export const logErrorToFile = async (error, jwt, url = undefined) => {
+    if (typeof window !== "undefined") {
+        url = url || window.location.href;
+    }
+
     const errorMessage = `${error.name}: ${error.stack}`;
     try {
         const response = await fetch(`${PUBLIC_BASE_URL}api/logs`, {
@@ -16,6 +20,6 @@ export const logErrorToFile = async (error, jwt, url = window.location.href) => 
                 url,
             }),
         });
-    } catch (err) {
+    } catch {
     }
 };

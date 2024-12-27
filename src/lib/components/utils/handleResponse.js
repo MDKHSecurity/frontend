@@ -27,7 +27,6 @@ export async function handleResponse(request, successPath) {
       },
       duration: 2500,
     });
-    goto("/login");
   }else if (request.status === 401) {
     if(result.isLogin === true){
       toast.push(result.message, {
@@ -72,6 +71,6 @@ export async function handleResponse(request, successPath) {
     });
     goto("/");
   } else {
-    console.error("Unexpected Error:", request.statusText);
+    return;
   }
-}
+};

@@ -2,7 +2,6 @@
     import Header from "../../lib/components/navigation/Header.svelte"
     import Footer from "$lib/components/navigation/Footer.svelte"
     export let data;
-    console.log(data)
 </script>
 <Header userData={data.userResponse} jwt = {data.newAccessToken}/>
 
