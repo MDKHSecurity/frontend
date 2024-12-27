@@ -41,7 +41,9 @@ export async function handleResponse(request, successPath) {
     }else{
       window.location.reload();
     }
-  } else if (request.status === 409) {
+  } else if (request.status === 403) {
+      window.location.reload();
+    } else if (request.status === 409) {
     toast.push(result.message, {
       theme: {
         "--toastColor": "mintcream",
@@ -49,6 +51,15 @@ export async function handleResponse(request, successPath) {
         "--toastBarBackground": "#DD571C",
       },
       duration: 2500,
+    });
+  } else if (request.status === 429) {
+    toast.push(result.message, {
+      theme: {
+        "--toastColor": "mintcream",
+        "--toastBackground": "#EC9706",
+        "--toastBarBackground": "#DD571C",
+      },
+      duration: 2500, 
     });
   } else if (request.status === 500) {
     toast.push(result.message, {
