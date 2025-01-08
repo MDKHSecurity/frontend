@@ -3,7 +3,7 @@
     export let data;
     import { PUBLIC_BASE_URL } from "$env/static/public";
     import { goto } from '$app/navigation';
-    
+    import { handleResponse } from "$lib/components/utils/handleResponse.js";
     const userId = data.tokensData.user_id;
     const token = data.token;
     const id = data.tokensData.token_id; 
@@ -13,17 +13,17 @@
 
         try {
             
-            const response = await fetch(`${PUBLIC_BASE_URL}api/users/${userId}`, {
+            const request = await fetch(`${PUBLIC_BASE_URL}api/users/${userId}`, {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
-                body: JSON.stringify({password}),
+                body: JSON.stringify({password: password, token: token}),
             });
+            await handleResponse(request);
 
-            if (response.ok) {
-                const data = await response.json();
+            if (request.ok) {
 
                 // 2. Once password update is successful, delete the token
                 if (id) {
@@ -44,7 +44,7 @@
                     }
                 }
             } else {
-                const errorData = await response.json();
+                const errorData = await request.json();
                 console.error("Error updating password:", errorData);
             }
         } catch (err) {

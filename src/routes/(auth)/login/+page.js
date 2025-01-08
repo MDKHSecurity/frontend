@@ -2,9 +2,8 @@ import { PUBLIC_BASE_URL } from "$env/static/public";
 import refreshTokens from "../../../lib/components/refresh/refresh.js";
 import { redirect } from "@sveltejs/kit";
 export const load = async ({ data, fetch }) => {
-  const { jwt, refreshToken } = data;
-  try{
-    const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
+  const { accessToken, refreshToken } = data;
+    const refreshedData = await refreshTokens(accessToken, refreshToken, fetch);
     if (refreshedData !== null) {
       const newAccessToken = refreshedData.newAccessToken;
 
@@ -26,6 +25,4 @@ export const load = async ({ data, fetch }) => {
     }
   return {
   };
-  }catch{
-  }
 };

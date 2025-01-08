@@ -6,7 +6,6 @@
   export let data;
   const roomsResponse = data.roomsResponse;
   const coursesResponse = data.coursesResponse;
-
   let selectedRoom;
 
   let addCourse = [];

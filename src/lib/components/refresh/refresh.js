@@ -1,6 +1,6 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
 import { logErrorToFile } from "../logErrorToFile/logErrorToFile.js";
-export default async function refreshTokens(jwt, refreshToken, fetch) {
+export default async function refreshTokens(accessToken, refreshToken, fetch) {
   try {
     const response = await fetch(`${PUBLIC_BASE_URL}api/auth/refresh`, {
       method: "POST",
@@ -8,7 +8,7 @@ export default async function refreshTokens(jwt, refreshToken, fetch) {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         refreshToken: refreshToken,
@@ -23,6 +23,6 @@ export default async function refreshTokens(jwt, refreshToken, fetch) {
     
     return null;
   } catch (error) {
-    logErrorToFile(error, jwt)
+    logErrorToFile(error, accessToken)
   }
 }

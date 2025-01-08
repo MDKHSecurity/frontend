@@ -1,58 +1,47 @@
-# create-svelte
+# Backend
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Welcome to the **MDKHSecurity** frontend repository. This readme will guide you through the setup and usage of the frontend.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+---
 
-## Creating a project
+### 1. Clone the Repository
 
-If you're seeing this, you've probably already done this step. Congrats!
+Clone this repository and navigate to the project folder:
 
 ```bash
-# create a new project in the current directory
-npx sv create
+# Clone the repository
+git clone https://github.com/MDKHSecurity/frontend.git
 
-# create a new project in my-app
-npx sv create my-app
+# Navigate to the repository folder
+cd folder-where-repo-located
+
+# Install dependencies
+npm install
 ```
 
-## Developing
+### 3. Update `.env`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Create a `.env` file in the root directory of the project and insert the following settings:
+```bash
+PUBLIC_BASE_URL = https://localhost:8080/
+```
+
+### 4. Run the Frontend
+
+Run the following commands to start the application:
 
 ```bash
+$env:NODE_TLS_REJECT_UNAUTHORIZED=0
+
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+### 4. Login
+If the backend is up and running you should now be able to access the application on https://localhost:5173/login
 
-## Building
+You can login using the following users:
+user@mail.com : testpassword
+admin@mail.com : testpassword
+owner@mail.com : testpassword
 
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+---

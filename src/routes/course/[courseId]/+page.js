@@ -4,10 +4,10 @@ import { redirect } from "@sveltejs/kit";
 import { logErrorToFile } from "$lib/components/logErrorToFile/logErrorToFile.js";
 
 export const load = async ({ data, fetch }) => {
-  const { jwt, refreshToken, courseId, roomId } = data;
+  const { accessToken, refreshToken, courseId, roomId } = data;
 
   try {
-    const refreshedData = await refreshTokens(jwt, refreshToken, fetch);
+    const refreshedData = await refreshTokens(accessToken, refreshToken, fetch);
 
     if (refreshedData !== null) {
       const newAccessToken = refreshedData.newAccessToken;
@@ -51,7 +51,7 @@ export const load = async ({ data, fetch }) => {
       throw redirect(302, "/login");
     }
   } catch (error) {
-    logErrorToFile(error, jwt);
+    logErrorToFile(error, accessToken);
     throw redirect(302, "/login");
   }
 };

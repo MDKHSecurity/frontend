@@ -3,10 +3,10 @@ import { PUBLIC_BASE_URL } from "$env/static/public";
 
 export const load = async ({ url, cookies }) => {
     const token = url.searchParams.get('token');
-    const jwt = cookies.get("jwt");
+    const accessToken = cookies.get("accessToken");
 
     // If no token is present in the URL, redirect to an error or homepage
-    if (!token || jwt) {
+    if (!token || accessToken) {
         throw redirect(302, '/');
     }
 
