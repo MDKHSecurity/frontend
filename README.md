@@ -19,14 +19,14 @@ cd folder-where-repo-located
 npm install
 ```
 
-### 3. Update `.env`
+### 2. Update `.env`
 
 Create a `.env` file in the root directory of the project and insert the following settings:
 ```bash
 PUBLIC_BASE_URL = https://localhost:8080/
 ```
 
-### 4. Run the Frontend
+### 3. Run the Frontend
 
 Run the following commands to start the application:
 
