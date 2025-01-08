@@ -1,5 +1,5 @@
 export const load = async ({ cookies, url }) => {
-  const jwt = cookies.get("jwt");
+  const accessToken = cookies.get("accessToken");
   const refreshToken = cookies.get("refreshToken");
-  return { jwt, refreshToken };
+  return { accessToken, refreshToken };
 };

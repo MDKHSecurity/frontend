@@ -3,6 +3,7 @@ import { toast } from "@zerodevx/svelte-toast";
 
 export async function handleResponse(request, successPath) {
   const result = await request.json();
+
   if (request.ok) {
     toast.push(result.message, {
       theme: {
@@ -12,10 +13,10 @@ export async function handleResponse(request, successPath) {
       },
       duration: 2500,
     });
-    if(successPath){
+    if (successPath) {
       goto(successPath);
       return result;
-    }else{
+    } else {
       return result;
     }
   } else if (request.status === 400) {
@@ -27,8 +28,8 @@ export async function handleResponse(request, successPath) {
       },
       duration: 2500,
     });
-  }else if (request.status === 401) {
-    if(result.isLogin === true){
+  } else if (request.status === 401) {
+    if (result.isLogin === true) {
       toast.push(result.message, {
         theme: {
           "--toastColor": "mintcream",
@@ -37,12 +38,12 @@ export async function handleResponse(request, successPath) {
         },
         duration: 2500,
       });
-    }else{
+    } else {
       window.location.reload();
     }
   } else if (request.status === 403) {
-      window.location.reload();
-    } else if (request.status === 409) {
+    window.location.reload();
+  } else if (request.status === 409) {
     toast.push(result.message, {
       theme: {
         "--toastColor": "mintcream",
@@ -54,13 +55,14 @@ export async function handleResponse(request, successPath) {
   } else if (request.status === 429) {
     toast.push(result.message, {
       theme: {
-        "--toastColor": "mintcream",
+        "--toastColor": "yellow",
         "--toastBackground": "#EC9706",
         "--toastBarBackground": "#DD571C",
       },
-      duration: 2500, 
+      duration: 2500,
     });
-  } else if (request.status === 500) {
+  }
+  else if (request.status === 500) {
     toast.push(result.message, {
       theme: {
         "--toastColor": "mintcream",
@@ -73,4 +75,4 @@ export async function handleResponse(request, successPath) {
   } else {
     return;
   }
-};
+}

@@ -7,6 +7,7 @@ export async function inputValidation(data, jwt) {
     function validateValue(value) {
         if (typeof value === 'string') {
             if(whitelist.test(value)){
+                logErrorToFile(`Invalid character(s) "${value}"`, jwt);
                 return true;
             }else{
                 return false;
