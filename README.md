@@ -40,8 +40,9 @@ npm run dev
 If the backend is up and running you should now be able to access the application on https://localhost:5173/login
 
 You can login using the following users:
+```bash
 user@mail.com : testpassword
 admin@mail.com : testpassword
 owner@mail.com : testpassword
-
+```
 ---
