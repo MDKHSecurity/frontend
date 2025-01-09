@@ -37,7 +37,7 @@ npm run dev
 ```
 
 ### 4. Login
-Go to https://localhost:8080 and accept the certificate.
+Navigate to https://localhost:8080 and accept the certificate.
 If the backend is up and running you should now be able to access the application on https://localhost:5173/login
 
 You can login using the following users:
