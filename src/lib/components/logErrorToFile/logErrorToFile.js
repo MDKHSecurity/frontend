@@ -4,7 +4,6 @@ export const logErrorToFile = async (error, jwt, url = undefined) => {
     if (typeof window !== "undefined") {
         url = url || window.location.href;
     }
-    console.log("Why am i here?")
 
     const errorMessage = `${error.name}: ${error.stack}`;
     try {

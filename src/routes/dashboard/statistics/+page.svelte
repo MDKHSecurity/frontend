@@ -38,12 +38,12 @@
     charts[courseId] = new Chart(canvas, {
       type: "pie",
       data: {
-        labels: ["Correct Answers", "Incorrect Answers"],
+        labels: [`Correct answers ${correct}`, `Wrong answers ${incorrect}`],
         datasets: [
           {
             data: [correct, incorrect],
             backgroundColor: ["#4CAF50", "#F44336"],
-            hoverBackgroundColor: ["#66BB6A", "#E57373"],
+            hoverBackgroundColor: ["#66BB6A", "#E57373"]
           },
         ],
       },
