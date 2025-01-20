@@ -9,7 +9,6 @@
   let users = data.institutionResponse || [];
   const currentInstitutionId = data.institutionId || null;
   const availableRoles = data.rolesResponse || [];
-
   let showModal = false;
   let newUsers = [];
   let requestData = {
@@ -47,6 +46,11 @@
   const deleteItems = (id) => {
     users = users.filter((user) => user.id !== id);
   };
+
+  const deleteTokens = (id) => {
+    users = [...users.map(user => user.id === id ? { ...user, hasActiveToken: false } : user)];
+  };
+
 </script>
 <Footer />
 <Header userData={data.userResponse} jwt={data.newAccessToken} />
@@ -75,6 +79,14 @@
         {#each users as user (user.id)}
           <li class="user-item">
             {user.username} - ID: {user.id}
+            {#if user.hasActiveToken}
+            <DeleteRequest
+              id={user.id}
+              apiParam="token"
+              jwt={data.newAccessToken}
+              {deleteTokens}
+            />
+            {/if}
             <DeleteRequest
               id={user.id}
               apiParam="users"
@@ -82,6 +94,7 @@
               {deleteItems}
             />
           </li>
+          <li></li>
         {/each}
       </ul>
       <button class="add-user-btn" on:click={openModal}>Add User</button>

@@ -6,6 +6,7 @@
   export let apiParam;
   export let jwt;
   export let deleteItems;
+  export let deleteTokens;
 
   const deleteFunction = async () => {
     try{
@@ -18,7 +19,8 @@
         },
       })
       await handleResponse(request);
-      deleteItems(id, apiParam);
+      if (deleteItems) deleteItems(id, apiParam);
+      if (deleteTokens) deleteTokens(id);
     }catch(error){
       logErrorToFile(error, jwt);
     }
