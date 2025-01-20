@@ -4,6 +4,7 @@
   import CreateRequest from "../../../lib/components/requests/CreateRequest.svelte";
   import Header from "../../../lib/components/navigation/Header.svelte";
   import Footer from "$lib/components/navigation/Footer.svelte"
+  import plus_minus from "../../../lib/images/plus_minus.png"
   export let data;
 
   let showModal = false;
@@ -76,10 +77,10 @@
 <main class="dashboard">
   <div class="welcome-container">
     <div class="text-container">
-      <h1>Welcome</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      <h1>Content</h1>
+      <h2>Manage courses, quizzes, videos and questions</h2>
     </div>
-    <img src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp" alt="" />
+    <img src={plus_minus} alt="" />
   </div>
 
   <div class="sections-container">
@@ -307,6 +308,7 @@
     height: auto;
     width: 250px;
     flex-shrink: 0; /* Prevent image from shrinking */
+    margin: 30px;
   }
 
   .sections-container {

@@ -1,7 +1,8 @@
 <script>
   import Header from "$lib/components/navigation/Header.svelte";
   import PostAndDelete from "../../../lib/components/requests/PostAndDelete.svelte";
-  import Footer from "$lib/components/navigation/Footer.svelte"
+  import Footer from "$lib/components/navigation/Footer.svelte";
+  import courses_icon from "../../../lib/images/courses_icon.png";
 
   export let data;
   const roomsResponse = data.roomsResponse;
@@ -88,16 +89,13 @@
 
 <div class="header-container">
   <div class="text-container">
-    <h1>welcome</h1>
+    <h1>Welcome to enroll course</h1>
     <h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-      malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore.
+      On this page you can add courses to selected rooms.
     </h2>
   </div>
   <img
-    src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp"
+    src={courses_icon}
     alt=""
   />
 </div>
@@ -176,6 +174,7 @@
   height: auto;
   width: 250px;
   flex-shrink: 0; /* Prevent image from shrinking */
+  margin: 30px;
   }
   .room-selection-container {
     padding: 16px;

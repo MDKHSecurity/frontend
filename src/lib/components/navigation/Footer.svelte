@@ -12,8 +12,8 @@
     </span>
     <nav class="footer-nav">
       <a href={privacyUrl} class="footer-link">Privacy Policy</a>
-      <a href={termsUrl} class="footer-link">Terms of Service</a>
-      <a href={contactUrl} class="footer-link">Contact Us</a>
+      <!-- <a href={termsUrl} class="footer-link">Terms of Service</a>
+      <a href={contactUrl} class="footer-link">Contact Us</a> -->
     </nav>
   </div>
 </footer>
@@ -32,7 +32,7 @@
     width: 100%;
     z-index: 100; /* Ensure it's below the header */
     max-width: 1200px;
-    margin-left: 200px; /* Adjust to match body left margin */
+    margin-left: 0px; /* Adjust to match body left margin */
   }
 
   .footer-content {

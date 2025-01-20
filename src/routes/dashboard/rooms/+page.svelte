@@ -4,6 +4,7 @@
   import Footer from "$lib/components/navigation/Footer.svelte"
   import Modal from "$lib/components/modal/Modal.svelte";
   import PostRequest from "$lib/components/requests/PostRequest.svelte";
+  import plus_sign from "../../../lib/images/plus_sign.png"
   export let data;
 
   let showModal = false;
@@ -31,10 +32,6 @@
       On this page you are able to create and delete a room. A room is where you can add people and courses.
     </h2>
   </div>
-  <img
-    src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp"
-    alt=""
-  />
 </div>
 <div class="modal-btn-container">
   <button class="modal-btn" on:click={() => openModal()}>Create room</button>
@@ -122,6 +119,7 @@ input {
     justify-content: center;
     gap: 1rem;
     margin-bottom: 2rem;
+    margin-top: 30px;
   }
   .text-container {
     display: flex;
