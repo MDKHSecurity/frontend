@@ -2,7 +2,7 @@
   import Chart from "chart.js/auto";
   import Header from "$lib/components/navigation/Header.svelte";
   import Footer from "$lib/components/navigation/Footer.svelte"
-
+  import statistics from "../../../lib/images/statistics.png"
   export let data;
 
   const roomsResponse = data.roomsResponse.rooms;
@@ -62,16 +62,13 @@
 <Header userData={data.userResponse} jwt={data.newAccessToken} />
 <div class="header-container">
   <div class="text-container">
-    <h1>welcome</h1>
+    <h1>Welcome to statistics</h1>
     <h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-      malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore.
+      On this page you are able to see statistics on each room and how the students performed.
     </h2>
   </div>
   <img
-    src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp"
+    src={statistics}
     alt=""
   />
 </div>
@@ -138,6 +135,7 @@
     height: auto;
     width: 250px;
     flex-shrink: 0; /* Prevent image from shrinking */
+    margin: 30px;
   }
 
   .room-selection-container {

@@ -3,13 +3,14 @@
   import Logout from "./Logout.svelte";
   export let userData;
   export let jwt;
+  import logo from "../../images/logo.png"
 </script>
 
 <div class="header">
   <!-- Left-aligned Icon -->
   <a href="/" class="logo">
     <!-- Replace with an actual SVG or an image for the icon -->
-    <img src="/path/to/icon.svg" alt="Logo" class="nav-icon" />
+    <img src={logo} alt="Logo" class="nav-icon" />
   </a>
   
   <!-- Navigation Links -->
@@ -18,7 +19,7 @@
       <!-- User not logged in -->
       <a href="/login" class="nav-link">Login</a>
     {:else if userData.role_name === "admin"}
-      <a href="/dashboard" class="nav-link">Home</a>
+      <!-- <a href="/dashboard" class="nav-link">Home</a> -->
       <a href="/dashboard/course" class="nav-link">Enroll course</a>
       <a href="/dashboard/users" class="nav-link">Manage users</a>
       <a href="/dashboard/rooms" class="nav-link">Manage rooms</a>
@@ -52,7 +53,7 @@
   }
 
   .nav-icon {
-    width: 30px; /* Adjust size as needed */
+    width: 130px; /* Adjust size as needed */
     height: 30px; /* Adjust size as needed */
   }
 

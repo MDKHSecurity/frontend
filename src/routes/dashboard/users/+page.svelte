@@ -2,6 +2,7 @@
   import Header from "$lib/components/navigation/Header.svelte";
   import PostAndDelete from "../../../lib/components/requests/PostAndDelete.svelte";
   import Footer from "$lib/components/navigation/Footer.svelte"
+  import users from "../../../lib/images/users.png"
 
   export let data;
   const roomsResponse = data.roomsResponse;
@@ -69,16 +70,13 @@
 
 <div class="header-container">
   <div class="text-container">
-    <h1>welcome</h1>
+    <h1>Welcome to Manage Users</h1>
     <h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-      malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit
-      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore.
+      On this page you are able to add students from your institution to a specific room.
     </h2>
   </div>
   <img
-    src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp"
+    src={users}
     alt=""
   />
 </div>
@@ -158,6 +156,7 @@
   height: auto;
   width: 250px;
   flex-shrink: 0; /* Prevent image from shrinking */
+  margin: 30px;
   }
   .room-selection-container {
     padding: 16px;

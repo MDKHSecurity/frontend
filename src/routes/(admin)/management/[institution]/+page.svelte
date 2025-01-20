@@ -5,6 +5,7 @@
   import Modal from "../../../../lib/components/modal/Modal.svelte";
   import DeleteRequest from "../../../../lib/components/requests/DeleteRequest.svelte";
   import CreateRequest from "../../../../lib/components/requests/CreateRequest.svelte";
+  import institution from "../../../../lib/images/institution.png"
 
   let users = data.institutionResponse || [];
   const currentInstitutionId = data.institutionId || null;
@@ -52,21 +53,14 @@
   };
 
 </script>
-<Footer />
 <Header userData={data.userResponse} jwt={data.newAccessToken} />
 <main class="dashboard">
   <div class="header-container">
     <div class="text-container">
-      <h1>welcome</h1>
-      <h2>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-        malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor
-        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-        ut labore et dolore.
-      </h2>
+      <h1>Institution Management</h1>
     </div>
     <img
-      src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp"
+      src={institution}
       alt=""
     />
   </div>
@@ -140,6 +134,7 @@
     </form>
   </Modal>
 </main>
+<Footer />
 
 <style>
   .dashboard {

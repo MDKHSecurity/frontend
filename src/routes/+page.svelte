@@ -2,6 +2,7 @@
   export let data;
   import Header from "../lib/components/navigation/Header.svelte"
   import Footer from "../lib/components/navigation/Footer.svelte"
+  import frontpage from "../lib/images/frontpage.png"
   const userResponse = data?.userResponse;
   const quizData = data?.quizResponse;
 
@@ -26,9 +27,14 @@
 <div class="header-container">
   <div class="text-container">
     <h1>Welcome {userResponse.username}</h1>
-    <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</h2>
+    <h2>This is your new educational platform for cyber security. 
+      <br>
+      Empowering you with the knowledge to stay secure in a digital world.
+      Together, we build a safer future.</h2>
+      <br>
+    <h2>On this page you can attend assigned courses and take random security quizzes.</h2>
   </div>
-  <img src="https://img.pikbest.com/png-images/school-building-cartoon-school-elements_5882542.png!w700wp" alt="">
+  <img src={frontpage} alt="">
 </div>
 
 <div class="random-quiz-container">
@@ -90,7 +96,9 @@ h3{
 img {
   height: auto;
   width: 250px;
-  flex-shrink: 0; /* Prevent image from shrinking */
+  flex-shrink: 0;
+  border-radius: 50px;
+  margin: 30px;
 }
 
   /* Centralize and style course boxes */

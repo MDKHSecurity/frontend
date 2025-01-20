@@ -55,7 +55,7 @@
 <Header userData={data.userResponse} jwt={data.newAccessToken} />
 
 <main class="dashboard">
-  <h1 class="dashboard-title">Admin Dashboard</h1>
+  <h1 class="dashboard-title">Owner Dashboard</h1>
   <!-- Container for sections -->
   <div class="sections-container">
     <!-- Institutions Section -->
